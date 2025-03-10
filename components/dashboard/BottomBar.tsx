@@ -16,7 +16,6 @@ function BottomBar() {
         {sidebarLinks.map((link) => {
           const url = new URL(link.route, window.location.origin);
           const linkTab = url.searchParams.get("tab");
-          console.log(linkTab);
           const isActive =
             url.pathname === pathname && linkTab === searchParams.get("tab");
 
