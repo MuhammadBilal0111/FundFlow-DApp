@@ -10,11 +10,23 @@ export const navItems: NavItem[] = [
   {
     name: "Home",
     link: "/",
-    // icon: <House />,
+    icon: <House size={18} />,
   },
   {
     name: "Campaigns",
     link: "/campaigns",
-    // icon: <Store />,
+    icon: <Store size={18} />,
+  },
+];
+export const sidebarLinks = [
+  {
+    imgURL: "/assets/create.svg",
+    route: "/dashboard?tab=create-campaign",
+    label: "Create Campaign",
+  },
+  {
+    imgURL: "/assets/view.svg",
+    route: "/dashboard?tab=view-campaign",
+    label: "View Campaigns",
   },
 ];

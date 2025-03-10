@@ -6,10 +6,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock, Users, Wallet } from "lucide-react";
 
-export default function CampaignPage({ params }: { params: { id: string } }) {
+export default function CampaignPage({ params }: { params: { slug: string } }) {
   // This would typically come from an API or database
   const campaign = {
-    id: params.id,
+    id: params.slug,
     title: "Decentralized Renewable Energy Platform",
     description:
       "A blockchain-based platform that connects renewable energy producers with consumers, enabling peer-to-peer energy trading and incentivizing green energy production through tokenized rewards.",
