@@ -28,12 +28,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} dark`}>
         <div className=" bg-white text-gray-900 dark:bg-[rgb(19,18,18)] dark:text-gray-200 min-h-screen">
-          <LeftBar />
-          <main className="">
-            <DashboardTopBar />
-            {children}
-            <DashboardBottomBar />
+          <DashboardTopBar />
+          <main className="flex flex-row">
+            <LeftBar />
+            <section className="flex min-h-screen flex-1 items-center flex-col px-6 pt-28 pb-10 sm:px-10">
+              <div className="w-full max-w-6xl">{children}</div>
+            </section>
           </main>
+          <DashboardBottomBar />
         </div>
       </body>
     </html>

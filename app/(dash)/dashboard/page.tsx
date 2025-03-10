@@ -1,9 +1,12 @@
+"use client";
 import React from "react";
-
+import { useSearchParams } from "next/navigation";
+import CreateCampaign from "@/components/forms/CreateCampaign";
 function page() {
-  return <section>
-    
-  </section>;
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab");
+
+  return <section>{tab === "create-campaign" && <CreateCampaign />}</section>;
 }
 
 export default page;
