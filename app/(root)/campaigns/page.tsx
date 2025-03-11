@@ -1,5 +1,5 @@
 import React from "react";
-import { CampaignCard } from "@/components/cards/campaignCard";
+import { CampaignCard } from "@/components/cards/CampaignCard";
 
 function page() {
   return (
