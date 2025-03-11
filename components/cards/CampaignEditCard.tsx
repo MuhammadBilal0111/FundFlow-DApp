@@ -45,32 +45,25 @@ interface ProjectDetails {
   imageURL: string;
 }
 
-export default function CampaignEditCard() {
+export default function CampaignEditCard({
+  project,
+}: {
+  project: ProjectDetails;
+}) {
   const router = useRouter();
-  const [project, setProject] = useState<ProjectDetails>({
-    title: "EcoSmart Home System",
-    description:
-      "A revolutionary smart home system that reduces energy consumption by 50% while improving comfort and convenience.",
-    slug: "ecoSmart-Home-system",
-    cost: 100000,
-    raised: 5000,
-    deadline: "2023-12-31",
-    backers: 1500,
-    imageURL: "/placeholder.svg?height=300&width=600",
-  });
 
   const [editField, setEditField] = useState<keyof ProjectDetails | null>(null);
   const [tempImage, setTempImage] = useState<string | null>(null); // use to store temperoray image to show
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const handleEdit = (field: keyof ProjectDetails) => {
     setEditField(field);
   };
 
-  const handleSave = (field: keyof ProjectDetails, value: string | number) => {
-    setProject((prev) => ({ ...prev, [field]: value }));
-    setEditField(null);
-  };
+  // const handleSave = (field: keyof ProjectDetails, value: string | number) => {
+  //   setProject((prev) => ({ ...prev, [field]: value }));
+  //   setEditField(null);
+  // };
 
   const handlePreview = () => {
     // navigate to the preview page
@@ -153,16 +146,16 @@ export default function CampaignEditCard() {
           {field !== "imageURL" && (
             <Button
               type="submit"
-              onClick={() =>
-                handleSave(
-                  field,
-                  (
-                    document.getElementById(field) as
-                      | HTMLInputElement
-                      | HTMLTextAreaElement
-                  ).value
-                )
-              }
+              // onClick={() =>
+              //   // handleSave(
+              //   //   field,
+              //   //   (
+              //   //     document.getElementById(field) as
+              //   //       | HTMLInputElement
+              //   //       | HTMLTextAreaElement
+              //   //   ).value
+              //   // )
+              // }
             >
               Save changes
             </Button>
@@ -173,7 +166,7 @@ export default function CampaignEditCard() {
   );
 
   return (
-    <Card className="w-full max-w-3xl">
+    <Card className="w-full max-w-3xl mb-3">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-2xl font-bold">{project?.title}</CardTitle>
         <EditDialog

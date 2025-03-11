@@ -48,7 +48,7 @@ export default function Home() {
     // Hero Section
     <section className="overflow-hidden">
       <div className="h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased">
-        <div className="max-w-2xl mx-auto p-4">
+        <div className="max-w-2xl mx-auto p-4 flex flex-col items-center justify-center">
           <div className="flex justify-center items-center gap-3">
             <Image
               src="/assets/logo.png"
@@ -70,6 +70,15 @@ export default function Home() {
             funds, and manage payouts using cryptocurrencies like ETH, USDT, or
             platform-native tokens.
           </p>
+
+          <div className="flex items-center gap-4 mt-6 active:*:">
+            <Button className="bg-purple-700 hover:bg-purple-800 text-white cursor-pointer">
+              Get Started <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+            <Button className="border-3 border-purple-700 hover:bg-purple-800 text-white cursor-pointer">
+              Create Campaign
+            </Button>
+          </div>
         </div>
         <BackgroundBeams />
       </div>
@@ -80,7 +89,7 @@ export default function Home() {
             <h2 className="text-4xl font-bold mb-16 text-center">
               How It Works
             </h2>
-            <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div className="grid md:grid-cols-2 gap-16 items-center overflow-hidden">
               <motion.div
                 variants={{
                   hidden: { x: -100, opacity: 0 },
@@ -91,10 +100,12 @@ export default function Home() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="rounded-xl overflow-hidden order-2 md:order-1"
               >
-                <img
-                  src="/placeholder.svg?height=600&width=800"
+                <Image
+                  src="/assets/bitcoin.jpg"
+                  width={800}
+                  height={100}
                   alt="How crowdfunding works"
-                  className="w-full h-auto rounded-xl shadow-[0_0_30px_rgba(168,85,247,0.3)]"
+                  className="w-full h-96 rounded-xl shadow-[0_0_30px_rgba(168,85,247,0.3)] object-cover"
                 />
               </motion.div>
               <motion.div
@@ -171,6 +182,69 @@ export default function Home() {
         )}
       </AnimatedSection>
 
+      {/* Featured Projects */}
+      <AnimatedSection className="py-24 bg-gradient-to-b from-black to-gray-900">
+        {(controls: any) => (
+          <div className="container mx-auto px-4">
+            <h2 className="text-4xl font-bold mb-16 text-center">
+              Featured Projects
+            </h2>
+            <div className="grid md:grid-cols-2 gap-16 items-center">
+              <motion.div
+                variants={{
+                  hidden: { x: -100, opacity: 0 },
+                  visible: { x: 0, opacity: 1 },
+                }}
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="rounded-xl overflow-hidden"
+              >
+                <Image
+                  src="/assets/home.jpg"
+                  width={800}
+                  height={100}
+                  alt="How crowdfunding works"
+                  className="w-full h-96 flex items-center rounded-xl shadow-[0_0_30px_rgba(168,85,247,0.3)] object-cover"
+                />
+              </motion.div>
+              <motion.div
+                variants={{
+                  hidden: { x: 100, opacity: 0 },
+                  visible: { x: 0, opacity: 1 },
+                }}
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              >
+                <h3 className="text-3xl font-bold mb-4 text-gray-300">
+                  EcoSmart Home System
+                </h3>
+                <p className="text-xl mb-6 text-gray-300">
+                  A revolutionary smart home system that reduces energy
+                  consumption by 50% while improving comfort and convenience.
+                </p>
+                <div className="mb-6">
+                  <div className="w-full bg-gray-800 rounded-full h-3 mb-2">
+                    <div
+                      className="bg-gradient-to-r from-purple-600 to-pink-600 h-3 rounded-full"
+                      style={{ width: "75%" }}
+                    ></div>
+                  </div>
+                  <div className="flex justify-between text-sm text-gray-400">
+                    <span>$75,000 raised</span>
+                    <span>$100,000 goal</span>
+                  </div>
+                </div>
+                <Button className="bg-purple-700 hover:bg-purple-800 text-white">
+                  Back This Project <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </motion.div>
+            </div>
+          </div>
+        )}
+      </AnimatedSection>
+
       {/* Success Stories */}
       <AnimatedSection className="py-24 bg-gradient-to-b from-gray-900 to-black">
         {(controls: any) => (
@@ -189,10 +263,12 @@ export default function Home() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="rounded-xl overflow-hidden"
               >
-                <img
-                  src="/placeholder.svg?height=600&width=800"
-                  alt="Success story"
-                  className="w-full h-auto rounded-xl shadow-[0_0_30px_rgba(168,85,247,0.3)]"
+                <Image
+                  src="/assets/idea.jpg"
+                  width={800}
+                  height={100}
+                  alt="How crowdfunding works"
+                  className="w-full h-96 flex items-center rounded-xl shadow-[0_0_30px_rgba(168,85,247,0.3)] object-cover"
                 />
               </motion.div>
               <motion.div
@@ -290,66 +366,6 @@ export default function Home() {
         )}
       </AnimatedSection>
 
-      {/* Featured Projects */}
-      <AnimatedSection className="py-24 bg-gradient-to-b from-black to-gray-900">
-        {(controls: any) => (
-          <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold mb-16 text-center">
-              Featured Projects
-            </h2>
-            <div className="grid md:grid-cols-2 gap-16 items-center">
-              <motion.div
-                variants={{
-                  hidden: { x: -100, opacity: 0 },
-                  visible: { x: 0, opacity: 1 },
-                }}
-                initial="hidden"
-                animate={controls}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="rounded-xl overflow-hidden"
-              >
-                <img
-                  src="/placeholder.svg?height=600&width=800"
-                  alt="Innovative Tech Project"
-                  className="w-full h-auto rounded-xl shadow-[0_0_30px_rgba(168,85,247,0.3)]"
-                />
-              </motion.div>
-              <motion.div
-                variants={{
-                  hidden: { x: 100, opacity: 0 },
-                  visible: { x: 0, opacity: 1 },
-                }}
-                initial="hidden"
-                animate={controls}
-                transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-              >
-                <h3 className="text-3xl font-bold mb-4 text-gray-300">
-                  EcoSmart Home System
-                </h3>
-                <p className="text-xl mb-6 text-gray-300">
-                  A revolutionary smart home system that reduces energy
-                  consumption by 50% while improving comfort and convenience.
-                </p>
-                <div className="mb-6">
-                  <div className="w-full bg-gray-800 rounded-full h-3 mb-2">
-                    <div
-                      className="bg-gradient-to-r from-purple-600 to-pink-600 h-3 rounded-full"
-                      style={{ width: "75%" }}
-                    ></div>
-                  </div>
-                  <div className="flex justify-between text-sm text-gray-400">
-                    <span>$75,000 raised</span>
-                    <span>$100,000 goal</span>
-                  </div>
-                </div>
-                <Button className="bg-purple-700 hover:bg-purple-800 text-white">
-                  Back This Project <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </motion.div>
-            </div>
-          </div>
-        )}
-      </AnimatedSection>
       {/* CTA Section */}
       <AnimatedSection className="py-24 bg-gradient-to-b from-black to-gray-900">
         {(controls: any) => (
