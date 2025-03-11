@@ -11,7 +11,7 @@ function LeftSideBar() {
   const searchParams = useSearchParams(); // used to get the query
 
   return (
-    <section className="sticky z-10 left-0 h-screen flex pt-28 border-r w-fit border-gray-600 max-sm:hidden">
+    <section className="sticky z-20 top-0 left-0 h-screen flex pt-28 border-r w-fit border-gray-600 max-sm:hidden">
       <div className="flex flex-col justify-start gap-3 px-4 w-full flex-1">
         {sidebarLinks.map((link) => {
           const url = new URL(link.route, window.location.origin);
@@ -24,7 +24,7 @@ function LeftSideBar() {
               href={link.route}
               key={link.label}
               className={`flex gap-2 ${
-                isActive ? "bg-blue-800" : "hover:bg-gray-700"
+                isActive ? " bg-purple-700" : "hover:bg-gray-900"
               } rounded-lg px-5 py-4 duration-75`}
             >
               <Image

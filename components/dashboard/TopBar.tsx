@@ -5,7 +5,7 @@ import Image from "next/image";
 
 function TopBar() {
   return (
-    <section className="fixed z-20 top-0 left-0 w-full bg-black py-5 border border-b-gray-600">
+    <section className="fixed z-30 top-0 left-0 w-full bg-black py-5 border border-b-gray-600">
       <div className="ml-5">
         <Link href="/" className="flex items-center gap-3">
           <Image

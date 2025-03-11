@@ -32,7 +32,7 @@ export default function RootLayout({
           <main className="flex flex-row">
             <LeftBar />
             <section className="flex min-h-screen flex-1 items-center flex-col px-6 pt-28 pb-10 sm:px-10">
-              <div className="w-full max-w-6xl">{children}</div>
+              <div className="w-full max-w-4xl">{children}</div>
             </section>
           </main>
           <DashboardBottomBar />

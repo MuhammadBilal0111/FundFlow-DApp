@@ -11,7 +11,7 @@ function BottomBar() {
   const searchParams = useSearchParams(); // used to get the query
 
   return (
-    <section className="fixed left-0 bottom-0 py-5 px-3 w-full rounded-t-3xl sm:hidden bg-black border border-t-gray-600">
+    <section className="fixed z-10 left-0 bottom-0 py-5 px-3 w-full rounded-t-3xl sm:hidden bg-black border border-t-gray-600">
       <div className="flex justify-center items-center gap-2">
         {sidebarLinks.map((link) => {
           const url = new URL(link.route, window.location.origin);

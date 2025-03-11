@@ -6,7 +6,11 @@ function page() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
 
-  return <section>{tab === "create-campaign" && <CreateCampaign />}</section>;
+  return (
+    <section className="">
+      {tab === "create-campaign" && <CreateCampaign />}
+    </section>
+  );
 }
 
 export default page;

@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 export const campaignValidations = z.object({
   title: z
     .string()
@@ -18,14 +17,5 @@ export const campaignValidations = z.object({
   cost: z.number().positive().min(0.1, {
     message: "0.1 ETH is the minimum amount to invest",
   }),
-  image: z
-    .instanceof(File)
-    .refine(
-      (image) => image.size < 5 * 1024 * 1024,
-      "File size must be less than 5MB."
-    )
-    .refine(
-      (image) => image.type.startsWith("image/"),
-      "Only image files are allowed."
-    ),
+  image: z.string().url().nonempty(),
 });
