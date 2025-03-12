@@ -70,16 +70,6 @@ function CreateCampaign() {
 
   return (
     <section className="px-4">
-      <div className="mb-5">
-        <h1 className="text-gray-300 font-bold md:font-extrabold text-2xl md:text-4xl mb-2 md:mb-4">
-          Create Project
-        </h1>
-        <p className="text-gray-400">
-          Empower Your Vision, Fuel It with Crypto – Create Your Project on Flow
-          Fund Today!
-        </p>
-      </div>
-
       <div className="mt-4">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

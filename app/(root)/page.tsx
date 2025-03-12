@@ -70,12 +70,11 @@ export default function Home() {
             funds, and manage payouts using cryptocurrencies like ETH, USDT, or
             platform-native tokens.
           </p>
-
-          <div className="flex items-center gap-4 mt-6 active:*:">
-            <Button className="bg-purple-700 hover:bg-purple-800 text-white cursor-pointer">
+          <div className="flex items-center gap-4 mt-6 sm:flex-row flex-col justify-center w-full">
+            <Button className="bg-purple-700 hover:bg-purple-800 text-white cursor-pointer max-sm:w-full">
               Get Started <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Button className="border-3 border-purple-700 hover:bg-purple-800 text-white cursor-pointer">
+            <Button className="border border-purple-700 hover:bg-purple-800 bg-transparent text-white cursor-pointer max-sm:w-full">
               Create Campaign
             </Button>
           </div>

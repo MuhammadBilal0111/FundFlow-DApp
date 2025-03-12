@@ -1,5 +1,6 @@
 "use client";
 
+import type React from "react";
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -31,10 +32,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import Image from "next/image";
 
+// This interface should match the one in the page component
 interface ProjectDetails {
+  id: number;
   title: string;
   description: string;
   slug?: string;
@@ -47,27 +50,25 @@ interface ProjectDetails {
 
 export default function CampaignEditCard({
   project,
+  handleUpdateProject,
 }: {
   project: ProjectDetails;
+  handleUpdateProject: (
+    id: number,
+    field: keyof ProjectDetails,
+    value: string | number
+  ) => void;
 }) {
-  const router = useRouter();
-
   const [editField, setEditField] = useState<keyof ProjectDetails | null>(null);
-  const [tempImage, setTempImage] = useState<string | null>(null); // use to store temperoray image to show
+  const [tempImage, setTempImage] = useState<string | null>(null); // use to store temporary image to show
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleEdit = (field: keyof ProjectDetails) => {
     setEditField(field);
   };
-
-  // const handleSave = (field: keyof ProjectDetails, value: string | number) => {
-  //   setProject((prev) => ({ ...prev, [field]: value }));
-  //   setEditField(null);
-  // };
-
+  // handle page navigation
   const handlePreview = () => {
-    // navigate to the preview page
-    router.push(`/campaigns/${project?.slug}`);
+    redirect(`/campaigns/${project?.slug}`);
   };
 
   // handle file change
@@ -90,83 +91,98 @@ export default function CampaignEditCard({
     field: keyof ProjectDetails;
     title: string;
     description: string;
-  }) => (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" onClick={() => handleEdit(field)}>
-          <Edit2 className="h-4 w-4" />
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Edit {title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          {field === "imageURL" ? (
-            <div className="flex flex-col items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                  ref={fileInputRef}
-                />
-                <Button onClick={() => fileInputRef.current?.click()}>
-                  <Upload className="mr-2 h-4 w-4" /> Choose Image
-                </Button>
+  }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleOpenChange = (open: boolean) => {
+      setIsOpen(open);
+      if (open) {
+        setEditField(field);
+      }
+      setEditField(null);
+    };
+
+    const handleSaveChanges = () => {
+      if (field === "imageURL") return;
+
+      const element = document.getElementById(field) as
+        | HTMLInputElement
+        | HTMLTextAreaElement;
+      if (element) {
+        handleUpdateProject(project.id, field, element.value);
+        setIsOpen(false);
+      }
+    };
+
+    return (
+      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+        <DialogTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <Edit2 className="h-4 w-4" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Edit {title}</DialogTitle>
+            <DialogDescription>{description}</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            {field === "imageURL" ? (
+              <div className="flex flex-col items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="hidden"
+                    ref={fileInputRef}
+                  />
+                  <Button onClick={() => fileInputRef.current?.click()}>
+                    <Upload className="mr-2 h-4 w-4" /> Choose Image
+                  </Button>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor={field} className="text-right">
-                {title}
-              </Label>
-              {field === "description" ? (
-                <Textarea
-                  id={field}
-                  defaultValue={project[field]}
-                  className="col-span-3"
-                />
-              ) : (
-                <Input
-                  id={field}
-                  type={
-                    field === "cost" || field === "backers" ? "number" : "text"
-                  }
-                  defaultValue={project[field]}
-                  className="col-span-3"
-                />
-              )}
-            </div>
-          )}
-        </div>
-        <DialogFooter>
-          {field !== "imageURL" && (
-            <Button
-              type="submit"
-              // onClick={() =>
-              //   // handleSave(
-              //   //   field,
-              //   //   (
-              //   //     document.getElementById(field) as
-              //   //       | HTMLInputElement
-              //   //       | HTMLTextAreaElement
-              //   //   ).value
-              //   // )
-              // }
-            >
-              Save changes
-            </Button>
-          )}
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
+            ) : (
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor={field}>{title}</Label>
+                {field === "description" ? (
+                  <Textarea
+                    id={field}
+                    defaultValue={String(project[field])}
+                    className="col-span-8"
+                    rows={6}
+                  />
+                ) : (
+                  <Input
+                    id={field}
+                    type={
+                      field === "cost"
+                        ? "number"
+                        : field === "deadline"
+                        ? "date"
+                        : "text"
+                    }
+                    defaultValue={String(project[field])}
+                    className="col-span-3"
+                  />
+                )}
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            {field !== "imageURL" && (
+              <Button type="submit" onClick={handleSaveChanges}>
+                Save changes
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  };
 
   return (
-    <Card className="w-full max-w-3xl mb-3">
+    <Card className="w-full max-w-3xl mb-3 px-4">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-2xl font-bold">{project?.title}</CardTitle>
         <EditDialog
@@ -240,7 +256,10 @@ export default function CampaignEditCard({
                 />
               </div>
               <div className="flex justify-between text-sm text-muted-foreground">
-                <span>75% funded</span>
+                <span>
+                  {((project?.raised / project?.cost) * 100)?.toFixed(0)}%
+                  funded
+                </span>
                 <span>25 days left</span>
               </div>
             </div>
@@ -251,17 +270,16 @@ export default function CampaignEditCard({
                   {project?.backers} backers
                 </span>
               </div>
-              <EditDialog
-                field="backers"
-                title="Backers"
-                description="Edit the number of backers"
-              />
             </div>
           </div>
         </div>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline" onClick={handlePreview}>
+        <Button
+          variant="outline"
+          onClick={handlePreview}
+          className="hover:bg-secondary"
+        >
           Preview
         </Button>
         <Button className="bg-purple-700 hover:bg-purple-800 text-white">

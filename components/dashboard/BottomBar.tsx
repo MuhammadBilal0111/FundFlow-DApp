@@ -24,7 +24,7 @@ function BottomBar() {
               href={link.route}
               key={link.label}
               className={`flex flex-col justify-center items-center gap-2 ${
-                isActive ? "bg-blue-800" : "hover:bg-gray-700"
+                isActive ? "bg-purple-700" : "hover:bg-gray-700"
               } rounded-lg px-5 py-4 duration-75`}
             >
               <Image
