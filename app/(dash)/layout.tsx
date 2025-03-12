@@ -4,6 +4,7 @@ import LeftBar from "@/components/dashboard/LeftSideBar";
 import "../globals.css";
 import DashboardTopBar from "@/components/dashboard/TopBar";
 import DashboardBottomBar from "@/components/dashboard/BottomBar";
+import { Toaster } from "react-hot-toast";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,7 +33,10 @@ export default function RootLayout({
           <main className="flex flex-row">
             <LeftBar />
             <section className="flex min-h-screen flex-1 items-center flex-col px-6 pt-28 pb-10 sm:px-10 max-md:mb-20">
-              <div className="w-full max-w-4xl">{children}</div>
+              <div className="w-full max-w-4xl">
+                <Toaster position="bottom-left" reverseOrder={false} />
+                {children}
+              </div>
             </section>
           </main>
           <DashboardBottomBar />

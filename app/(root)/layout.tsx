@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/shared/Navbar";
-
+import { Toaster } from "react-hot-toast";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -29,7 +29,10 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} dark`}>
         <div className=" bg-white text-gray-900 dark:bg-[rgb(10,10,10)] dark:text-gray-200 min-h-screen">
           <Navbar />
-          <main>{children}</main>
+          <main>
+            <Toaster position="bottom-left" reverseOrder={false} />
+            {children}
+          </main>
         </div>
       </body>
     </html>

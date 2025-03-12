@@ -13,6 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { campaignValidations } from "@/lib/validations/campaigns";
 import { Textarea } from "../ui/textarea";
+import { generateSlug } from "@/lib/slugify";
+import { ToastFailure, ToastSuccess } from "../Toast";
 
 function CreateCampaign() {
   const [imageFile, setImageFile] = useState<File[]>([]);
@@ -27,11 +29,26 @@ function CreateCampaign() {
     },
   });
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof campaignValidations>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof campaignValidations>) {
+    // console.log(values);
+    // try {
+    //   const image = imageFile[0];
+    //   const imageUrl = await handleImageUpload(image);
+    //   const data = {
+    //     ...values,
+    //     slug: generateSlug(values?.title),
+    //     imageURL: imageUrl?.secure_url,
+    //     timeStamp: new Date(),
+    //   };
+    //   // code to deploy in contract
+    //   console.log(data);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
+  // ToastSuccess("Success bro");
+  // ToastFailure("Failure bro");
+  
   // handling image file
   const handleImageFile = (
     e: React.ChangeEvent<HTMLInputElement>,

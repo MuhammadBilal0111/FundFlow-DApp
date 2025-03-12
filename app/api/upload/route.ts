@@ -1,11 +1,10 @@
-import uploadImage from "@/lib/uploadthing";
 import { NextRequest, NextResponse } from "next/server";
+import uploadImage from "@/lib/uploadthing";
 
 export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
-  const file = formData.get("file") as File;
-  const folder = "campaigns";
-  const result = await uploadImage(file, folder);
-  return NextResponse.json(result, { status: 201 });
-};
+  const imageFile = formData.get("file") as unknown as File;
+  const image = await uploadImage(imageFile, "threads");
 
+  return NextResponse.json(image, { status: 201 });
+};
