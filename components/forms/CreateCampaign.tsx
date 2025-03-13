@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -13,42 +13,47 @@ import {
 import { Input } from "@/components/ui/input";
 import { campaignValidations } from "@/lib/validations/campaigns";
 import { Textarea } from "../ui/textarea";
-import { generateSlug } from "@/lib/slugify";
 import { ToastFailure, ToastSuccess } from "../Toast";
+import { createProject } from "@/services/blockchain";
 
 function CreateCampaign() {
   const [imageFile, setImageFile] = useState<File[]>([]);
+  const [isPending, startTransition] = useTransition();
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(campaignValidations),
     defaultValues: {
       title: "",
       description: "",
-      cost: undefined,
       image: undefined,
+      cost: undefined,
+      deadline: undefined,
     },
   });
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof campaignValidations>) {
     // console.log(values);
-    // try {
-    //   const image = imageFile[0];
-    //   const imageUrl = await handleImageUpload(image);
-    //   const data = {
-    //     ...values,
-    //     slug: generateSlug(values?.title),
-    //     imageURL: imageUrl?.secure_url,
-    //     timeStamp: new Date(),
-    //   };
-    //   // code to deploy in contract
-    //   console.log(data);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    startTransition(async () => {
+      try {
+        const image = imageFile[0];
+        const imageUrl = (await handleImageUpload(image)) as {
+          secure_url: string;
+        };
+        const data = {
+          title: values.title,
+          description: values.description,
+          imageURL: imageUrl?.secure_url,
+          cost: values?.cost,
+          expiredAt: Number(new Date(values.deadline)?.getTime() / 1000),
+        };
+        await createProject(data);
+      } catch (error: any) {
+        ToastFailure("Failed to submit project");
+        console.log(error);
+      }
+    });
   }
-  // ToastSuccess("Success bro");
-  // ToastFailure("Failure bro");
-  
+
   // handling image file
   const handleImageFile = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -130,6 +135,26 @@ function CreateCampaign() {
             />
             <FormField
               control={form.control}
+              name="deadline"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-md text-gray-300">
+                    Deadline
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="DD-MM-YYYY"
+                      {...field}
+                      type="date"
+                      value={undefined}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="image"
               render={({ field }) => (
                 <FormItem>
@@ -172,10 +197,11 @@ function CreateCampaign() {
             <button
               className="relative h-10 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 w-full max-w-4xl mx-auto"
               type="submit"
+              disabled={isPending}
             >
               <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
               <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-purple-700 px-3 py-1 text-sm font-medium hover:bg-purple-800 text-white backdrop-blur-3xl duration-75">
-                Submit
+                {isPending ? "Submitting..." : "Create Project"}
               </span>
             </button>
           </form>

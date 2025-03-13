@@ -17,5 +17,6 @@ export const campaignValidations = z.object({
   cost: z.number().positive().min(0.1, {
     message: "0.1 ETH is the minimum amount to invest",
   }),
+  deadline: z.string().nonempty(),
   image: z.string().url().nonempty(),
 });

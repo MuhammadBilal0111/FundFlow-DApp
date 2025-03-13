@@ -6,3 +6,7 @@ export function generateSlug(text: string) {
     .replace(/\s+/g, "-") // Replace spaces with hyphens
     .replace(/-+/g, "-"); // Remove multiple hyphens
 }
+export const dateToTimeStamp = (dateStr: string) => {
+  const dateObj = new Date(dateStr).getTime();
+  return BigInt(dateObj / 1000);
+};
