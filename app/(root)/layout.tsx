@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/shared/Navbar";
 import { Toaster } from "react-hot-toast";
+import NextTopLoader from "nextjs-toploader";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -30,6 +31,11 @@ export default function RootLayout({
         <div className=" bg-white text-gray-900 dark:bg-[rgb(10,10,10)] dark:text-gray-200 min-h-screen">
           <Navbar />
           <main>
+            <NextTopLoader
+              color="purple"
+              showSpinner={false}
+              easing="ease-in"
+            />
             <Toaster position="bottom-left" reverseOrder={false} />
             {children}
           </main>

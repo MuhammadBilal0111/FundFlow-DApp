@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
-import AnimatedSection from "./AnimatedSection"
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "nextjs-toploader/app";
+import AnimatedSection from "./AnimatedSection";
 
 export default function CTASection() {
-  const router = useRouter()
+  const router = useRouter();
 
   const handleCreateCampaign = () => {
-    router.push("/campaigns?tab=create-campaign")
-  }
+    router.push("/campaigns?tab=create-campaign");
+  };
 
   return (
     <AnimatedSection className="py-24 bg-gradient-to-b from-black to-gray-900">
@@ -26,9 +26,12 @@ export default function CTASection() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="max-w-3xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Bring Your Idea to Life?</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Ready to Bring Your Idea to Life?
+            </h2>
             <p className="text-xl mb-8 text-gray-300">
-              Join thousands of creators who have successfully funded their projects on our platform.
+              Join thousands of creators who have successfully funded their
+              projects on our platform.
             </p>
             <Button
               size="lg"
@@ -41,6 +44,5 @@ export default function CTASection() {
         </div>
       )}
     </AnimatedSection>
-  )
+  );
 }
-

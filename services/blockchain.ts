@@ -5,7 +5,9 @@ import { ToastSuccess, ToastFailure } from "@/components/Toast";
 import { generateSlug } from "@/utils/utils";
 import { structuredProjects } from "@/utils/blockchain.utils";
 
-const { ethereum } = window;
+let ethereum =
+  typeof window !== "undefined" && window.ethereum ? window.ethereum : null;
+
 const contractAddress = address.address;
 const contractAbi = abi.abi;
 
@@ -130,7 +132,7 @@ export const loadProjects = async () => {
     }
     const projects = await contract?.getProjects();
     const stats = await contract?.stats();
-    console.log("projects", structuredProjects(projects));
+    return structuredProjects(projects);
   } catch (error: any) {
     console.log(error);
     ToastFailure(error.message);
