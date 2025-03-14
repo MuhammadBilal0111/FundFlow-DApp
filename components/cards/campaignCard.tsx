@@ -89,7 +89,7 @@ export const CampaignCard = ({
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className="absolute inset-0 h-full w-full bg-accent/50 dark:bg-accent/30 block rounded-xl"
+                className="absolute -inset-2 h-[calc(100%+16px)] w-[calc(100%+16px)] bg-accent/50 dark:bg-accent/30 block rounded-xl"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{
