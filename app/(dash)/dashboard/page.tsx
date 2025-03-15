@@ -44,6 +44,7 @@ function page() {
       imageURL: "/assets/home.jpg",
     },
   ]);
+  
   const handleUpdateProject = (
     id: number,
     field: keyof ProjectDetails,

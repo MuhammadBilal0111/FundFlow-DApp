@@ -224,10 +224,15 @@ contract Genesis {
         projectTax = _taxPct;
     }
 
-    function getProject(uint id) public view returns (projectStruct memory) {
+    function getProjectById(uint id) public view returns (projectStruct memory) {
         require(projectExist[id], "Project not found");
 
         return projects[id];
+    }
+    function getProjectBySlug(uint slug) public view returns (projectStruct memory) {
+        require(projectExist[slug], "Project not found");
+
+        return projects[slug];
     }
 
     function getProjects() public view returns (projectStruct[] memory) {

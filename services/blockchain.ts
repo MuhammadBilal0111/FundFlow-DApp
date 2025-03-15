@@ -214,7 +214,6 @@ export const backProject = async (id: number, amount: number) => {
       ToastFailure("Please install Metamask");
       return;
     }
-    console.log("Amount to back:", amount);
     const contract = await getEthereumContract(); // return the contract
     if (!contract) {
       ToastFailure("Failed to connect to the contract.");
@@ -222,16 +221,14 @@ export const backProject = async (id: number, amount: number) => {
     }
     const amountInWei = ethers.parseEther(amount.toString());
     // const connectedAccount = getGlobalState("connectedAccount"); // Get the connected account
-    console.log("Amount in wei in back project function", amountInWei);
     const tx = await contract?.backProject(id, {
       from: tempAddress,
-      value: amount,
+      value: amountInWei,
     });
 
-    console.log("Transaction Hash:", tx.hash); // Log transaction hash for debugging
     await tx.wait(); // Wait for the transaction to be mined
     ToastSuccess(
-      `Project backed successfully!. Your transaction hash is ${tx.hash}`
+      `${amount} backed successfully!. Your transaction hash is ${tx.hash}`
     );
   } catch (error: any) {
     console.error("Error in backing project:", error);

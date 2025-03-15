@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -5,8 +6,39 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock, Users, Wallet } from "lucide-react";
+import { backProject } from "@/services/blockchain";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useRef, useState, useTransition } from "react";
+import Spinner from "@/components/Spinner";
+
+
 
 export default function CampaignPage({ params }: { params: { slug: string } }) {
+  const backInputElement = useRef<HTMLInputElement>(null);
+  const [isPending, startTransaction] = useTransition(); // for loader
+
+  const handleBackProject = async () => {
+    const amount = backInputElement?.current?.value;
+    if (Number(amount) > 0) {
+      startTransaction(async () => {
+        await backProject(0, Number(amount));
+        if (backInputElement.current) {
+          backInputElement.current.value = "";
+        }
+      });
+    }
+  };
+
   // This would typically come from an API or database
   const campaign = {
     id: params.slug,
@@ -175,10 +207,24 @@ export default function CampaignPage({ params }: { params: { slug: string } }) {
                     <span className="font-semibold">56</span>
                   </div>
                 </div>
-
-                <Button className="w-full mb-4 bg-blue-800 hover:bg-blue-900 duration-100 text-gray-300">
-                  <Wallet className="mr-2 h-4 w-4" />
-                  Back This Project
+                <Input
+                  type="number"
+                  placeholder="Amount To back"
+                  className="mb-4 border border-gray-300"
+                  ref={backInputElement}
+                />
+                <Button
+                  disabled={isPending}
+                  className="flex items-center justify-center w-full mb-4 bg-purple-700 hover:bg-purple-800 duration-100 text-gray-300"
+                  onClick={handleBackProject}
+                >
+                  {isPending ? (
+                    <Spinner />
+                  ) : (
+                    <>
+                      <Wallet className="mr-2 h-4 w-4" /> Back This Project
+                    </>
+                  )}
                 </Button>
 
                 <div className="text-sm">
