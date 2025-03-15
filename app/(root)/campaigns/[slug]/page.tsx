@@ -5,8 +5,9 @@ import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Users, Wallet } from "lucide-react";
-import { backProject } from "@/services/blockchain";
+import { Clock, Users, Wallet, AlertCircle } from "lucide-react";
+import { backProject, getBackers } from "@/services/blockchain";
+import { Roller } from "react-spinners-css";
 import {
   Dialog,
   DialogContent,
@@ -14,29 +15,56 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
+import multiavatar from "@multiavatar/multiavatar/esm";
 import Spinner from "@/components/Spinner";
 
-
+interface Backers {
+  owner: number;
+  contribution: number;
+  timestamp: number;
+  refunded: boolean;
+}
 
 export default function CampaignPage({ params }: { params: { slug: string } }) {
-  const backInputElement = useRef<HTMLInputElement>(null);
-  const [isPending, startTransaction] = useTransition(); // for loader
+  const [amount, setAmount] = useState("");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [backPending, backStartTransaction] = useTransition(); // for back transaction loader
+  const [backersPending, backerStartTransaction] = useTransition(); // for backers fetching loader
+  const [backers, setBackers] = useState<Backers[]>([]);
+
+  useEffect(() => {
+    const fetchBackers = async () => {
+      backerStartTransaction(async () => {
+        const backers = (await getBackers(0)) as Backers[];
+        console.log(backers);
+        setBackers(backers);
+      });
+    };
+    fetchBackers();
+  }, []);
+
+  const handleOpenDialog = () => {
+    setDialogOpen(true);
+  };
 
   const handleBackProject = async () => {
-    const amount = backInputElement?.current?.value;
-    if (Number(amount) > 0) {
-      startTransaction(async () => {
+    if (Number(amount) <= 0) return;
+
+    backStartTransaction(async () => {
+      try {
         await backProject(0, Number(amount));
-        if (backInputElement.current) {
-          backInputElement.current.value = "";
-        }
-      });
-    }
+        setAmount("");
+        setDialogOpen(false);
+        // Refresh backers list after successful backing
+        setBackers((await getBackers(0)) as Backers[]);
+      } catch (error) {
+        console.error("Error backing project:", error);
+      }
+    });
   };
 
   // This would typically come from an API or database
@@ -45,62 +73,26 @@ export default function CampaignPage({ params }: { params: { slug: string } }) {
     title: "Decentralized Renewable Energy Platform",
     description:
       "A blockchain-based platform that connects renewable energy producers with consumers, enabling peer-to-peer energy trading and incentivizing green energy production through tokenized rewards.",
-    image: "/placeholder.svg?height=400&width=800",
+    image: "/bilal.jpg",
     currentAmount: 18.5,
     targetAmount: 25,
     currency: "ETH",
-    backers: 124,
-    daysLeft: 15,
+    backers: backers?.length || 0,
+    daysLeft: 56,
     creator: {
-      name: "EnergyDAO",
+      name: "Muhammad Bilal",
       avatar: "/placeholder.svg?height=40&width=40",
     },
-    recentBackers: [
-      {
-        id: 1,
-        name: "Alex",
-        amount: 2.5,
-        timestamp: "2025-03-08T14:30:00Z",
-        avatar: "/placeholder.svg?height=40&width=40",
-      },
-      {
-        id: 2,
-        name: "Maria",
-        amount: 1.0,
-        timestamp: "2025-03-07T09:15:00Z",
-        avatar: "/placeholder.svg?height=40&width=40",
-      },
-      {
-        id: 3,
-        name: "John",
-        amount: 0.5,
-        timestamp: "2025-03-06T18:45:00Z",
-        avatar: "/placeholder.svg?height=40&width=40",
-      },
-      {
-        id: 4,
-        name: "Sarah",
-        amount: 3.0,
-        timestamp: "2025-03-05T11:20:00Z",
-        avatar: "/placeholder.svg?height=40&width=40",
-      },
-      {
-        id: 5,
-        name: "David",
-        amount: 1.5,
-        timestamp: "2025-03-04T16:10:00Z",
-        avatar: "/placeholder.svg?height=40&width=40",
-      },
-    ],
   };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="grid gap-8 md:grid-cols-3">
+        {/* Left column - Campaign details */}
         <div className="md:col-span-2">
           <div className="relative aspect-video overflow-hidden rounded-xl mb-6">
             <Image
-              src={"/bilal.jpg"}
+              src={campaign.image || "/placeholder.svg"}
               alt={campaign.title}
               fill
               className="object-cover"
@@ -109,21 +101,21 @@ export default function CampaignPage({ params }: { params: { slug: string } }) {
           </div>
 
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
-            Decentralized Renewable Energy Platform
+            {campaign.title}
           </h1>
 
           <div className="flex items-center gap-3 mb-6">
             <Avatar className="h-8 w-8">
               <AvatarImage
                 src={campaign.creator.avatar}
-                alt={"Muhammad Bilal"}
+                alt={campaign.creator.name}
               />
               <AvatarFallback>{campaign.creator.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <span className="text-sm text-muted-foreground">
               Created by{" "}
               <span className="font-semibold text-yellow-600">
-                {"Muhammad Bilal"}
+                {campaign.creator.name}
               </span>
             </span>
           </div>
@@ -132,44 +124,63 @@ export default function CampaignPage({ params }: { params: { slug: string } }) {
             <p>{campaign.description}</p>
           </div>
 
+          {/* Backers section */}
           <h2 className="text-xl font-bold mb-4">Recent Backers</h2>
-          <div className="space-y-4 mb-8 pr-5 overflow-y-auto max-h-96 scrollbar-thin dark:scrollbar-thumb-gray-200 dark:scrollbar-track-gray-800">
-            {campaign.recentBackers.map((backer) => (
-              <Card
-                key={backer.id}
-                className="dark:bg-gray-900 dark:text-gray-400 dark:border-gray-400"
-              >
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <Avatar className="h-10 w-10 bg-blue-800 text-gray-300">
-                        <AvatarImage src={backer.avatar} alt={backer.name} />
-                        <AvatarFallback>{backer.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-medium">{backer.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {new Date(backer.timestamp).toLocaleDateString(
-                            "en-US",
-                            {
+
+          {backersPending ? (
+            <div className="flex justify-center py-8">
+              <Roller />
+            </div>
+          ) : backers?.length > 0 ? (
+            <div className="space-y-4 mb-8 pr-5 overflow-y-auto max-h-96 scrollbar-thin dark:scrollbar-thumb-gray-200 dark:scrollbar-track-gray-800">
+              {backers.map((backer, i) => (
+                <Card
+                  key={i}
+                  className="dark:bg-gray-900 dark:text-gray-400 dark:border-gray-400"
+                >
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-10 w-10 text-gray-300">
+                          <AvatarImage
+                            src={`data:image/svg+xml;utf8,${encodeURIComponent(
+                              multiavatar(backer.owner.toString())
+                            )}`}
+                            alt={backer.owner.toString()}
+                          />
+                          <AvatarFallback>
+                            {backer.owner.toString().charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-medium">Backer {backer?.owner}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {new Date().toLocaleDateString("en-US", {
                               year: "numeric",
                               month: "short",
                               day: "numeric",
-                            }
-                          )}
-                        </p>
+                            })}
+                          </p>
+                        </div>
                       </div>
+                      <Badge variant="secondary" className="font-medium">
+                        {backer?.contribution} {campaign?.currency}
+                      </Badge>
                     </div>
-                    <Badge variant="secondary" className="font-medium">
-                      {backer.amount} {campaign.currency}
-                    </Badge>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-gray-900 rounded-lg p-8 text-center mb-8">
+              <p className="text-muted-foreground">
+                No backers yet. Be the first to support this project!
+              </p>
+            </div>
+          )}
         </div>
 
+        {/* Right column - Campaign stats and backing */}
         <div className="md:col-span-1">
           <div className="sticky top-4">
             <Card className="dark:bg-gray-900 dark:text-gray-300 dark:border-gray-400">
@@ -177,18 +188,25 @@ export default function CampaignPage({ params }: { params: { slug: string } }) {
                 <div className="mb-6">
                   <div className="flex justify-between mb-2">
                     <span className="text-2xl font-bold text-blue-800 dark:text-gray-300">
-                      18.5 Eth
+                      {campaign.currentAmount} {campaign.currency}
                     </span>
                     <span className="font-semibold text-blue-800 dark:text-gray-300">
-                      of 25 Eth
+                      of {campaign?.targetAmount} {campaign?.currency}
                     </span>
                   </div>
                   <Progress
-                    value={50}
+                    value={
+                      (campaign.currentAmount / campaign.targetAmount) * 100
+                    }
                     className="h-2 mb-2"
                     color="bg-blue-800"
                   />
-                  <p className="text-sm">60% funded</p>
+                  <p className="text-sm">
+                    {Math.round(
+                      (campaign.currentAmount / campaign.targetAmount) * 100
+                    )}
+                    % funded
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-6">
@@ -197,34 +215,29 @@ export default function CampaignPage({ params }: { params: { slug: string } }) {
                       <Users size={16} />
                       <span className="text-sm">Backers</span>
                     </div>
-                    <span className="font-semibold">126</span>
+                    <span className="font-semibold">{campaign.backers}</span>
                   </div>
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2 mb-1">
                       <Clock size={16} />
                       <span className="text-sm">Days Left</span>
                     </div>
-                    <span className="font-semibold">56</span>
+                    <span className="font-semibold">{campaign.daysLeft}</span>
                   </div>
                 </div>
                 <Input
                   type="number"
-                  placeholder="Amount To back"
+                  placeholder="Amount to back"
                   className="mb-4 border border-gray-300"
-                  ref={backInputElement}
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
                 />
                 <Button
-                  disabled={isPending}
                   className="flex items-center justify-center w-full mb-4 bg-purple-700 hover:bg-purple-800 duration-100 text-gray-300"
-                  onClick={handleBackProject}
+                  onClick={handleOpenDialog}
+                  disabled={backPending || !amount}
                 >
-                  {isPending ? (
-                    <Spinner />
-                  ) : (
-                    <>
-                      <Wallet className="mr-2 h-4 w-4" /> Back This Project
-                    </>
-                  )}
+                  <Wallet className="mr-2 h-4 w-4" /> Back This Project
                 </Button>
 
                 <div className="text-sm">
@@ -239,6 +252,60 @@ export default function CampaignPage({ params }: { params: { slug: string } }) {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Confirmation Dialog */}
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle className="flex items-center gap-2">
+                    <AlertCircle className="h-5 w-5 text-amber-500" />
+                    Confirm Backing
+                  </DialogTitle>
+                  <DialogDescription>
+                    Are you sure you want to back this project with {amount}{" "}
+                    ETH? This action cannot be undone once confirmed on the
+                    blockchain.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="amount" className="text-right">
+                      Amount (ETH)
+                    </Label>
+                    <Input
+                      id="amount"
+                      type="number"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      placeholder="0.1"
+                      className="col-span-3"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button
+                    variant="outline"
+                    onClick={() => setDialogOpen(false)}
+                    disabled={backPending}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleBackProject}
+                    disabled={!amount || backPending}
+                    className="bg-purple-700 hover:bg-purple-800 text-gray-300"
+                  >
+                    {backPending ? (
+                      <div className="flex items-center gap-3">
+                        <Spinner /> Processing...
+                      </div>
+                    ) : (
+                      "Yes, Back This Project"
+                    )}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>

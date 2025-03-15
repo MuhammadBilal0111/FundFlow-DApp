@@ -3,7 +3,10 @@ import address from "../contract/artifacts/contractAddress.json";
 import abi from "../contract/artifacts/contracts/Genesis.sol/Genesis.json";
 import { ToastSuccess, ToastFailure } from "@/components/Toast";
 import { generateSlug } from "@/utils/utils";
-import { structuredProjects } from "@/utils/blockchain.utils";
+import {
+  structuredBackers,
+  structuredProjects,
+} from "@/utils/blockchain.utils";
 
 let ethereum =
   typeof window !== "undefined" && window.ethereum ? window.ethereum : null;
@@ -176,6 +179,7 @@ export const getBackers = async (id: number) => {
       return;
     }
     const backers = await contract?.getBackers(id);
+    return structuredBackers(backers);
     // setGlobalState("backers", structuredBackers(backers));
     console.log(backers);
   } catch (error: any) {
