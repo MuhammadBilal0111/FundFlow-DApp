@@ -25,7 +25,7 @@ export const structuredBackers = (backers: any[]) => {
     ?.map((backer) => ({
       owner: backer[0]?.toLowerCase(),
       contribution: Number(backer[1]) / 10 ** 18,
-      timestamp: new Date(Number(backer[2]) * 1000).getTime(),
+      timestamp: toDate(Number(backer[2]) * 1000),
       refunded: backer[3],
     }))
     .reverse();

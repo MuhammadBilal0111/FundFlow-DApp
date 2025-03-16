@@ -4,22 +4,8 @@ import { CampaignCard } from "@/components/cards/CampaignCard";
 import { loadProjects } from "@/services/blockchain";
 import { Button } from "@/components/ui/button";
 import { useTransition } from "react";
-
-export interface Project {
-  id: number;
-  owner: string;
-  title: string;
-  description: string;
-  slug: string;
-  imageURL: string;
-  cost: number;
-  raised: number;
-  timestamp: number;
-  expiresAt: number;
-  date: string;
-  backers: number;
-  status: number;
-}
+import { Project } from "@/types/projects";
+import { Roller } from "react-spinners-css";
 
 function page() {
   const [isPending, startTransition] = useTransition();
@@ -27,13 +13,10 @@ function page() {
   const [projects, setProjects] = useState<Project[]>([]);
   useEffect(() => {
     const fetchProjects = async () => {
-      const loadedProjects = (await loadProjects()) as Project[];
-      startTransition(() => {
+      startTransition(async () => {
+        const loadedProjects = (await loadProjects()) as Project[];
         setProjects(loadedProjects);
       });
-      if (loadedProjects) {
-        setProjects(loadedProjects); // Type assertion
-      }
     };
     fetchProjects();
   }, []);
@@ -49,7 +32,9 @@ function page() {
         </p>
       </div>
       {isPending ? (
-        <p className="text-white">Loading</p>
+        <div className="flex justify-center mt-4">
+          <Roller />
+        </div>
       ) : (
         projects?.length > 0 && <CampaignCard items={projects} />
       )}

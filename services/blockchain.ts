@@ -159,7 +159,7 @@ export const loadProject = async (id: number) => {
       ToastFailure("Project Not found!");
       return;
     }
-    console.log("project", project);
+    return structuredProjects([project]);
     // setGlobalState("project", structuredProjects([project])[0]);
   } catch (error: any) {
     console.log(error);
@@ -181,7 +181,6 @@ export const getBackers = async (id: number) => {
     const backers = await contract?.getBackers(id);
     return structuredBackers(backers);
     // setGlobalState("backers", structuredBackers(backers));
-    console.log(backers);
   } catch (error: any) {
     console.log(error);
     ToastFailure(error.message);
