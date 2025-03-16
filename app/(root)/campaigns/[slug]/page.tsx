@@ -14,7 +14,7 @@ import { Roller } from "react-spinners-css";
 
 export default function Page() {
   const params = useParams();
-  const slug = params?.slug;
+  const slug = Number(params?.slug);
   const [amount, setAmount] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [backPending, backStartTransaction] = useTransition(); // for back transaction loader
@@ -24,26 +24,23 @@ export default function Page() {
   const [projectDetails, setProjectDetails] = useState<Project>();
 
   useEffect(() => {
-    if (!slug) return;
-
+    // use effect to get the backers data and the project details from blockchain
     const fetchBackers = async () => {
       backerStartTransaction(async () => {
-        const backers = (await getBackers(Number(params?.slug))) as Backers[];
-        console.log(backers);
+        const backers = (await getBackers(slug)) as Backers[];
         setBackers(backers);
       });
     };
     const fetchProjectDetails = async () => {
       projectDetailsTransaction(async () => {
-        const projectDetails = (await loadProject(
-          Number(params?.slug)
-        )) as Project[];
+        const projectDetails = (await loadProject(slug)) as Project[];
+        console.log(projectDetails);
         setProjectDetails(projectDetails[0]);
       });
     };
     fetchProjectDetails();
     fetchBackers();
-  }, [slug, params?.slug]);
+  }, [slug, params.slug]);
 
   const handleOpenDialog = () => {
     setDialogOpen(true);
@@ -54,11 +51,11 @@ export default function Page() {
 
     backStartTransaction(async () => {
       try {
-        await backProject(0, Number(amount));
+        await backProject(slug, Number(amount));
         setAmount("");
         setDialogOpen(false);
         // Refresh backers list after successful backing
-        setBackers((await getBackers(0)) as Backers[]);
+        setBackers((await getBackers(slug)) as Backers[]);
       } catch (error: any) {
         console.error("Error backing project:", error);
       }

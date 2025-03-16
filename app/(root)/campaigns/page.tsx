@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { CampaignCard } from "@/components/cards/CampaignCard";
 import { loadProjects } from "@/services/blockchain";
-import { Button } from "@/components/ui/button";
 import { useTransition } from "react";
 import { Project } from "@/types/projects";
 import { Roller } from "react-spinners-css";
