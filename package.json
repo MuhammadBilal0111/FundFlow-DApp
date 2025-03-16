@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.5",
+    "@clerk/themes": "^2.2.21",
     "@hookform/resolvers": "^4.1.3",
     "@multiavatar/multiavatar": "^1.0.7",
     "@radix-ui/react-avatar": "^1.1.3",

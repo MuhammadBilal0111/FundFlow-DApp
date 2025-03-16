@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Navbar from "@/components/shared/Navbar";
-import { Toaster } from "react-hot-toast";
-import NextTopLoader from "nextjs-toploader";
 import "../globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,21 +25,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+      }}
+    >
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} dark`}>
-          <div className=" bg-white text-gray-900 dark:bg-[rgb(10,10,10)] dark:text-gray-200 min-h-screen">
-            <Navbar />
-            <main>
-              <NextTopLoader
-                color="purple"
-                showSpinner={false}
-                easing="ease-in"
-              />
-              <Toaster position="bottom-left" reverseOrder={false} />
-              {children}
-            </main>
+          <div className="w-full flex justify-center items-center bg-white text-gray-900 dark:bg-[rgb(10,10,10)] dark:text-gray-200 min-h-screen">
+            {children}
           </div>
         </body>
       </html>
+    </ClerkProvider>
   );
 }

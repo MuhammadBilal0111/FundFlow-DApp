@@ -8,8 +8,8 @@ import { Roller } from "react-spinners-css";
 
 function page() {
   const [isPending, startTransition] = useTransition();
-  console.log(isPending);
   const [projects, setProjects] = useState<Project[]>([]);
+  
   useEffect(() => {
     const fetchProjects = async () => {
       startTransition(async () => {
