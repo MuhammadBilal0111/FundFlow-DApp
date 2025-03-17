@@ -113,7 +113,7 @@ export const updateProject = async ({
       expiresAt
     );
     await tx.wait();
-    await loadProject(id);
+    await loadProjectById(id);
     ToastSuccess("Project updated successfully!");
   } catch (error: any) {
     console.log(error);
@@ -142,7 +142,7 @@ export const loadProjects = async () => {
   }
 };
 // get project details
-export const loadProject = async (id: number) => {
+export const loadProjectById = async (id: number) => {
   try {
     if (!ethereum) {
       ToastFailure("Please install Metamask");
@@ -154,6 +154,31 @@ export const loadProject = async (id: number) => {
       return;
     }
     const project = await contract?.getProject(id);
+
+    if (!project) {
+      ToastFailure("Project Not found!");
+      return;
+    }
+    return structuredProjects([project]);
+    // setGlobalState("project", structuredProjects([project])[0]);
+  } catch (error: any) {
+    console.log(error);
+    ToastFailure(error.message);
+  }
+};
+
+export const loadProjectBySlug = async (slug: string) => {
+  try {
+    if (!ethereum) {
+      ToastFailure("Please install Metamask");
+      return;
+    }
+    const contract = await getEthereumContract();
+    if (!contract) {
+      ToastFailure("Failed to connect to the contract.");
+      return;
+    }
+    const project = await contract?.getProjectBySlug(slug);
 
     if (!project) {
       ToastFailure("Project Not found!");

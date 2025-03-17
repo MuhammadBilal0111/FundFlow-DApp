@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.28;
+pragma solidity ^0.8.26;
 
 contract Genesis {
     address public owner;
@@ -11,6 +11,7 @@ contract Genesis {
 
     mapping(address => projectStruct[]) projectsOf;
     mapping(uint => backerStruct[]) backersOf;
+    mapping(string=>projectStruct) projectsOfByName;
     mapping(uint => bool) public projectExist;
 
     enum statusEnum {
@@ -93,6 +94,7 @@ contract Genesis {
 
         projects.push(project);
         projectExist[projectCount] = true;
+        projectsOfByName[slug] = (project);
         projectsOf[msg.sender].push(project);
         stats.totalProjects += 1;
 
@@ -224,10 +226,18 @@ contract Genesis {
         projectTax = _taxPct;
     }
 
-    function getProject(uint id) public view returns (projectStruct memory) {
+    function getProjectById(uint id) public view returns (projectStruct memory) {
         require(projectExist[id], "Project not found");
 
         return projects[id];
+    }
+    
+    function getProjectsByAddress() public view returns (projectStruct[] memory) {
+        return projectsOf[msg.sender];
+    }
+    
+    function getProjectBySlug(string memory _slug) public view returns (projectStruct memory){
+        return projectsOfByName[_slug];
     }
 
     function getProjects() public view returns (projectStruct[] memory) {

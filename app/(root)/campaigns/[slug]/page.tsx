@@ -2,7 +2,11 @@
 
 import Image from "next/image";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { backProject, getBackers, loadProject } from "@/services/blockchain";
+import {
+  backProject,
+  getBackers,
+  loadProjectBySlug,
+} from "@/services/blockchain";
 import { useEffect, useState, useTransition } from "react";
 import type { Backers } from "@/types/backers";
 import type { Project } from "@/types/projects";
@@ -14,7 +18,7 @@ import { Roller } from "react-spinners-css";
 
 export default function Page() {
   const params = useParams();
-  const slug = Number(params?.slug);
+  const slug = params?.slug?.toString();
   const [amount, setAmount] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [backPending, backStartTransaction] = useTransition(); // for back transaction loader
@@ -27,14 +31,20 @@ export default function Page() {
     // use effect to get the backers data and the project details from blockchain
     const fetchBackers = async () => {
       backerStartTransaction(async () => {
-        const backers = (await getBackers(slug)) as Backers[];
-        setBackers(backers);
+        if (projectDetails && projectDetails.id) {
+          const backers = (await getBackers(projectDetails!.id)) as Backers[];
+          setBackers(backers);
+        }
       });
     };
+    console.log(projectDetails);
     const fetchProjectDetails = async () => {
       projectDetailsTransaction(async () => {
-        const projectDetails = (await loadProject(slug)) as Project[];
+        const projectDetails = (await loadProjectBySlug(
+          slug || ""
+        )) as Project[];
         console.log(projectDetails);
+
         setProjectDetails(projectDetails?.[0]);
       });
     };
@@ -50,11 +60,13 @@ export default function Page() {
     if (Number(amount) <= 0) return;
     backStartTransaction(async () => {
       try {
-        await backProject(slug, Number(amount));
+        // console.log("projectDetils", typeof projectDetails!.id);
+
+        await backProject(projectDetails!.id, Number(amount));
         setAmount("");
         setDialogOpen(false);
         // Refresh backers list after successful backing
-        setBackers((await getBackers(slug)) as Backers[]);
+        setBackers((await getBackers(projectDetails!.id)) as Backers[]);
       } catch (error: any) {
         console.error("Error backing project:", error);
       }

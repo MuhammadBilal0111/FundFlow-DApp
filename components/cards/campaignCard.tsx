@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
-import type { Project } from "@/app/(root)/campaigns/page";
+import type { Project } from "@/types/projects";
 import { Progress } from "@/components/ui/progress";
 
 export const CampaignCard = ({
@@ -22,7 +22,7 @@ export const CampaignCard = ({
   // Helper function to format ETH values
   const formatEth = (value: number | undefined | null) => {
     if (value === undefined || value === null) return "0.00 ETH";
-    return `${Number(value).toFixed(2)} ETH`;
+    return `${Number(value).toFixed(4)} ETH`;
   };
 
   // Helper function to calculate progress percentage
@@ -107,7 +107,9 @@ export const CampaignCard = ({
             <CardImage src={item?.imageURL} alt={item?.title} />
             <div className="p-4">
               <div className="flex justify-between items-start mb-2">
-                <CardTitle>{item?.title}</CardTitle>
+                <CardTitle className="line-clamp-1 leading-relaxed">
+                  {item?.title}
+                </CardTitle>
                 <div
                   className={cn(
                     "text-xs px-2 py-1 rounded-full",
@@ -117,7 +119,9 @@ export const CampaignCard = ({
                   {getStatusText(item?.status)}
                 </div>
               </div>
-              <CardDescription>{item?.description}</CardDescription>
+              <CardDescription className="line-clamp-2">
+                {item?.description}
+              </CardDescription>
 
               <div className="mt-4 space-y-2">
                 <div className="flex justify-between text-sm">

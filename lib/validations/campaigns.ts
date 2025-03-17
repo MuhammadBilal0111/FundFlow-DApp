@@ -14,7 +14,7 @@ export const campaignValidations = z.object({
     .nonempty({
       message: "Description is a required field",
     }),
-  cost: z.number().positive().min(0.1, {
+  cost: z.number().positive().min(0.0001, {
     message: "0.1 ETH is the minimum amount to invest",
   }),
   deadline: z.string().nonempty(),
