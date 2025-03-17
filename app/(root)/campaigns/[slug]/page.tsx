@@ -28,29 +28,31 @@ export default function Page() {
   const [projectDetails, setProjectDetails] = useState<Project>();
 
   useEffect(() => {
-    // use effect to get the backers data and the project details from blockchain
-    const fetchBackers = async () => {
-      backerStartTransaction(async () => {
-        if (projectDetails && projectDetails.id) {
-          const backers = (await getBackers(projectDetails!.id)) as Backers[];
-          setBackers(backers);
-        }
-      });
-    };
-    console.log(projectDetails);
+    // Fetch Project Details First
     const fetchProjectDetails = async () => {
       projectDetailsTransaction(async () => {
-        const projectDetails = (await loadProjectBySlug(
-          slug || ""
-        )) as Project[];
-        console.log(projectDetails);
-
-        setProjectDetails(projectDetails?.[0]);
+        const projectData = (await loadProjectBySlug(slug || "")) as Project[];
+        console.log("Project Details:", projectData);
+        setProjectDetails(projectData?.[0] || null);
       });
     };
+
     fetchProjectDetails();
-    fetchBackers();
   }, [slug, params.slug]);
+
+  useEffect(() => {
+    // Fetch Backers Only When Project Details Are Available
+
+    const fetchBackers = async () => {
+      backerStartTransaction(async () => {
+        console.log("Fetching backers for project ID:", projectDetails!.id);
+        const backers = (await getBackers(projectDetails!.id)) as Backers[];
+        setBackers(backers);
+      });
+    };
+
+    fetchBackers();
+  }, [projectDetails]); // Runs only when projectDetails is set
 
   const handleOpenDialog = () => {
     setDialogOpen(true);
