@@ -282,3 +282,25 @@ export const deleteProject = async (id: number) => {
     throw new Error(error);
   }
 };
+// function to get the projects of a specific user
+
+export const loadProjectsByAddress = async () => {
+  try {
+    if (!ethereum) {
+      ToastFailure("Please install Metamask");
+      return;
+    }
+    const contract = await getEthereumContract();
+    if (!contract) {
+      ToastFailure("Failed to connect to the contract.");
+      return;
+    }
+    const projects = await contract.getProjectsByAddress({
+      sender: tempAddress,
+    });
+    return structuredProjects(projects);
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error);
+  }
+};

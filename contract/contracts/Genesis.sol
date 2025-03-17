@@ -11,7 +11,7 @@ contract Genesis {
 
     mapping(address => projectStruct[]) projectsOf;
     mapping(uint => backerStruct[]) backersOf;
-    mapping(string=>projectStruct) projectsOfByName;
+    mapping(string => projectStruct) projectsOfByName;
     mapping(uint => bool) public projectExist;
 
     enum statusEnum {
@@ -226,17 +226,25 @@ contract Genesis {
         projectTax = _taxPct;
     }
 
-    function getProjectById(uint id) public view returns (projectStruct memory) {
+    function getProjectById(
+        uint id
+    ) public view returns (projectStruct memory) {
         require(projectExist[id], "Project not found");
 
         return projects[id];
     }
-    
-    function getProjectsByAddress() public view returns (projectStruct[] memory) {
+
+    function getProjectsByAddress()
+        public
+        view
+        returns (projectStruct[] memory)
+    {
         return projectsOf[msg.sender];
     }
-    
-    function getProjectBySlug(string memory _slug) public view returns (projectStruct memory){
+
+    function getProjectBySlug(
+        string memory _slug
+    ) public view returns (projectStruct memory) {
         return projectsOfByName[_slug];
     }
 

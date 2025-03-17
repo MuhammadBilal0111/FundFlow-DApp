@@ -1,53 +1,31 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import CreateCampaign from "@/components/forms/CreateCampaign";
 import CampaignEditCard from "@/components/cards/CampaignEditCard";
+import { loadProjectsByAddress } from "@/services/blockchain";
+import { Project } from "@/types/projects";
+import { Roller } from "react-spinners-css";
 
 function page() {
-  interface ProjectDetails {
-    id: number;
-    title: string;
-    description: string;
-    slug?: string;
-    cost: number;
-    raised: number;
-    deadline: string;
-    backers: number;
-    imageURL: string;
-  }
+  const [projectPending, projectTransaction] = useTransition();
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  console.log("projects_", projects);
+  useEffect(() => {
+    const fetchProjects = async () => {
+      projectTransaction(async () => {
+        setProjects((await loadProjectsByAddress()) as Project[]);
+      });
+    };
+    fetchProjects();
+  }, []);
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
-  const [projects, setProjects] = useState<ProjectDetails[]>([
-    {
-      id: 0,
-      title: "EcoSmart Home System",
-      description:
-        "A revolutionary smart home system that reduces energy consumption by 50% while improving comfort and convenience.",
-      slug: "ecoSmart-Home-system",
-      cost: 100000,
-      raised: 5000,
-      deadline: "2023-12-31",
-      backers: 1500,
-      imageURL: "/assets/bitcoin.jpg",
-    },
-    {
-      id: 1,
-      title: "Temp Data",
-      description:
-        "A revolutionary smart home system that reduces energy consumption by 50% while improving comfort and convenience.",
-      slug: "system",
-      cost: 30000,
-      raised: 7000,
-      deadline: "2023-12-31",
-      backers: 500,
-      imageURL: "/assets/home.jpg",
-    },
-  ]);
-  
+
   const handleUpdateProject = (
     id: number,
-    field: keyof ProjectDetails,
+    field: keyof Project,
     value: string | number
   ) => {
     setProjects(
@@ -81,15 +59,25 @@ function page() {
             </h1>
             <p className="text-gray-400">Campaigns Overview</p>
           </div>
-          <>
-            {projects?.map((project) => (
-              <CampaignEditCard
-                key={project?.id}
-                project={project}
-                handleUpdateProject={handleUpdateProject}
-              />
-            ))}
-          </>
+          {projectPending ? (
+            <div className="flex justify-center items-center w-full mt-5">
+              <Roller />
+            </div>
+          ) : projects.length === 0 ? (
+            <p className="text-gray-300 text-md text-center mt-3">
+              No Campaigns posted yet!
+            </p>
+          ) : (
+            <>
+              {projects?.map((project) => (
+                <CampaignEditCard
+                  key={project?.id}
+                  project={project}
+                  handleUpdateProject={handleUpdateProject}
+                />
+              ))}
+            </>
+          )}
         </>
       )}
     </section>

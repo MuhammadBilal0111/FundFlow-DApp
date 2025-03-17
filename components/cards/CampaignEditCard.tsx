@@ -34,36 +34,25 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { redirect } from "next/navigation";
 import Image from "next/image";
-
+import type { Project } from "@/types/projects";
 // This interface should match the one in the page component
-interface ProjectDetails {
-  id: number;
-  title: string;
-  description: string;
-  slug?: string;
-  cost: number;
-  raised: number;
-  deadline: string;
-  backers: number;
-  imageURL: string;
-}
 
 export default function CampaignEditCard({
   project,
   handleUpdateProject,
 }: {
-  project: ProjectDetails;
+  project: Project;
   handleUpdateProject: (
     id: number,
-    field: keyof ProjectDetails,
+    field: keyof Project,
     value: string | number
   ) => void;
 }) {
-  const [editField, setEditField] = useState<keyof ProjectDetails | null>(null);
+  const [editField, setEditField] = useState<keyof Project | null>(null);
   const [tempImage, setTempImage] = useState<string | null>(null); // use to store temporary image to show
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleEdit = (field: keyof ProjectDetails) => {
+  const handleEdit = (field: keyof Project) => {
     setEditField(field);
   };
   // handle page navigation
@@ -88,7 +77,7 @@ export default function CampaignEditCard({
     title,
     description,
   }: {
-    field: keyof ProjectDetails;
+    field: keyof Project;
     title: string;
     description: string;
   }) => {
@@ -158,7 +147,7 @@ export default function CampaignEditCard({
                     type={
                       field === "cost"
                         ? "number"
-                        : field === "deadline"
+                        : field === "expiresAt"
                         ? "date"
                         : "text"
                     }
@@ -198,7 +187,7 @@ export default function CampaignEditCard({
             alt={`Image for ${project?.title}`}
             width={600}
             height={100}
-            className="w-full object-cover rounded-lg"
+            className="flex items-center w-full object-cover rounded-lg h-64"
           />
           <div className="absolute top-2 right-2 bg-background/80 rounded-lg p-1">
             <EditDialog
@@ -223,12 +212,12 @@ export default function CampaignEditCard({
             <div className="flex items-center space-x-4 text-sm text-muted-foreground">
               <div className="flex items-center">
                 <Calendar className="mr-1 h-4 w-4" />
-                <span>Deadline: {project?.deadline}</span>
+                <span>Deadline: {project?.expiresAt}</span>
               </div>
               <EditDialog
-                field="deadline"
+                field="expiresAt"
                 title="Deadline"
-                description="Edit your project's deadline"
+                description="Edit your project's expiresAt"
               />
             </div>
           </div>
@@ -249,9 +238,17 @@ export default function CampaignEditCard({
               <div className="h-2 w-full bg-gray-200 rounded-full">
                 <motion.div
                   className="h-full bg-purple-600 rounded-full"
-                  style={{ width: "75%" }}
+                  style={{
+                    width: ((project?.raised / project?.cost) * 100)?.toFixed(
+                      0
+                    ),
+                  }}
                   initial={{ width: 0 }}
-                  animate={{ width: "75%" }}
+                  animate={{
+                    width: ((project?.raised / project?.cost) * 100)?.toFixed(
+                      0
+                    ),
+                  }}
                   transition={{ duration: 1, ease: "easeOut" }}
                 />
               </div>
