@@ -1,3 +1,5 @@
+import { formatTimestampToDate } from "./utils";
+
 // helper function to format the projects details
 export const structuredProjects = (projects: any[]) => {
   return projects
@@ -10,8 +12,8 @@ export const structuredProjects = (projects: any[]) => {
       imageURL: project[5], // Image URL as a string
       cost: Number(project[6]) / 10 ** 18, // Convert BigInt (wei) to Ether
       raised: Number(project[7]) / 10 ** 18, // Convert BigInt (wei) to Ether
-      timestamp: new Date(Number(project[8]) * 1000).getTime(), // Convert UNIX timestamp to milliseconds
-      expiresAt: new Date(Number(project[9]) * 1000).getTime(), // Convert UNIX timestamp to milliseconds
+      timestamp: formatTimestampToDate(Number(project[8]) * 1000), // Convert UNIX timestamp to milliseconds
+      expiresAt: formatTimestampToDate(Number(project[9]) * 1000), // Convert UNIX timestamp to milliseconds
       date: toDate(Number(project[9]) * 1000), // Format UNIX timestamp
       backers: Number(project[10]), // Convert BigInt to number
       status: Number(project[11]), // Convert BigInt to number

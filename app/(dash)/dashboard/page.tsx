@@ -3,13 +3,19 @@ import React, { useEffect, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import CreateCampaign from "@/components/forms/CreateCampaign";
 import CampaignEditCard from "@/components/cards/CampaignEditCard";
-import { loadProjectsByAddress } from "@/services/blockchain";
+import { loadProjectsByAddress, updateProject } from "@/services/blockchain";
 import { Project } from "@/types/projects";
 import { Roller } from "react-spinners-css";
+import { ToastFailure } from "@/components/Toast";
+import { dateToTimeStamp } from "@/utils/utils";
 
 function page() {
   const [projectPending, projectTransaction] = useTransition();
+  const [disabledButtons, setDisabledButtons] = useState<{
+    [key: number]: boolean;
+  }>({});
   const [projects, setProjects] = useState<Project[]>([]);
+  const [imageFile, setImageFile] = useState<File[]>([]);
 
   console.log("projects_", projects);
   useEffect(() => {
@@ -34,7 +40,66 @@ function page() {
       )
     );
   };
+  const handleSaveToContract = async (id: number) => {
+    try {
+      setDisabledButtons((prev) => ({ ...prev, [id]: true })); // disabling the button and storing the bool value for button
+      const project = projects.find((project) => project.id === id);
+      console.log("project", project);
 
+      if (!project) return;
+      let imageUrl = { secure_url: project.imageURL }; // imageUrl
+      if (imageFile?.length) {
+        const image = imageFile[0];
+        const uploadedImage = (await handleImageUpload(image)) as {
+          secure_url: string;
+        };
+        console.log("uploaded image", uploadedImage);
+        if (uploadedImage?.secure_url) {
+          imageUrl = uploadedImage; // uploadedImage: { secure_url: "https://example.com/uploaded-image.jpg" }
+        }
+      }
+
+      const data = {
+        id: project?.id,
+        title: project.title,
+        description: project.description,
+        imageURL: imageUrl?.secure_url,
+        expiresAt: dateToTimeStamp(project.expiresAt),
+      };
+      console.log(data);
+      const isUpdated = await updateProject(data);
+      if (isUpdated) setProjects((await loadProjectsByAddress()) as Project[]); // if updation is successfull then show the updated cards
+      // as is basically the type assertion
+    } catch (error: any) {
+      ToastFailure("Failed to update project");
+      console.log(error);
+    } finally {
+      setDisabledButtons((prev) => ({ ...prev, [id]: false }));
+    }
+  };
+
+  // function to store image
+  const handleImageUpload = async (file: File) => {
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData, // Convert file to Base64 or URL
+      });
+
+      if (!response.ok) {
+        throw new Error("Upload failed");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log("Upload Error:", error);
+    }
+  };
   return (
     <section>
       {tab === "create-campaign" && (
@@ -44,8 +109,8 @@ function page() {
               Create Campaign
             </h1>
             <p className="text-gray-400">
-              Empower Your Vision, Fuel It with Crypto – Create Your Project on
-              Flow Fund Today!
+              Empower Your Vision, Fuel It with Crypto - Create Your Project on
+              FlowFund Today!
             </p>
           </div>
           <CreateCampaign />
@@ -74,6 +139,9 @@ function page() {
                   key={project?.id}
                   project={project}
                   handleUpdateProject={handleUpdateProject}
+                  handleSaveToContract={handleSaveToContract}
+                  setImageFile={setImageFile}
+                  disabledButtons={disabledButtons}
                 />
               ))}
             </>

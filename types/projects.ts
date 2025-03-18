@@ -7,8 +7,8 @@ export interface Project {
   imageURL: string;
   cost: number;
   raised: number;
-  timestamp: number;
-  expiresAt: number;
+  timestamp: string;
+  expiresAt: string;
   date: string;
   backers: number;
   status: number;

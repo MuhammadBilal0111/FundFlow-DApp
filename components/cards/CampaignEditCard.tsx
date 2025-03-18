@@ -35,11 +35,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import type { Project } from "@/types/projects";
-// This interface should match the one in the page component
+import Spinner from "../Spinner";
 
 export default function CampaignEditCard({
   project,
   handleUpdateProject,
+  handleSaveToContract,
+  setImageFile,
+  disabledButtons,
 }: {
   project: Project;
   handleUpdateProject: (
@@ -47,14 +50,14 @@ export default function CampaignEditCard({
     field: keyof Project,
     value: string | number
   ) => void;
+  handleSaveToContract: (id: number) => void;
+  setImageFile: (files: File[]) => void;
+  disabledButtons: { [key: number]: boolean };
 }) {
   const [editField, setEditField] = useState<keyof Project | null>(null);
   const [tempImage, setTempImage] = useState<string | null>(null); // use to store temporary image to show
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleEdit = (field: keyof Project) => {
-    setEditField(field);
-  };
   // handle page navigation
   const handlePreview = () => {
     redirect(`/campaigns/${project?.slug}`);
@@ -62,14 +65,19 @@ export default function CampaignEditCard({
 
   // handle file change
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target?.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setTempImage(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+    const files = e.target.files; // Extract files safely
+    if (!files || files.length === 0) return; // Prevent issues
+
+    setImageFile(Array.from(files)); // Convert FileList to File[]
+
+    const file = files[0]; // Get the first file
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (event.target) {
+        setTempImage(event.target.result as string);
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   const EditDialog = ({
@@ -98,6 +106,7 @@ export default function CampaignEditCard({
         | HTMLInputElement
         | HTMLTextAreaElement;
       if (element) {
+        console.log("hello");
         handleUpdateProject(project.id, field, element.value);
         setIsOpen(false);
       }
@@ -171,7 +180,7 @@ export default function CampaignEditCard({
   };
 
   return (
-    <Card className="w-full max-w-3xl mb-3 px-4">
+    <Card className="w-full max-w-3xl mb-3 px-1 sm:px-2 md:px-4">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-2xl font-bold">{project?.title}</CardTitle>
         <EditDialog
@@ -271,16 +280,27 @@ export default function CampaignEditCard({
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between">
+      <CardFooter className="flex justify-between sm:flex-row flex-col gap-3 max-sm:w-full">
         <Button
           variant="outline"
           onClick={handlePreview}
-          className="hover:bg-secondary"
+          className="hover:bg-secondary max-sm:w-full"
         >
           Preview
         </Button>
-        <Button className="bg-purple-700 hover:bg-purple-800 text-white">
-          Publish Changes <ArrowRight className="ml-2 h-4 w-4" />
+        <Button
+          className="bg-purple-700 hover:bg-purple-800 text-white flex items-center min-w-[180px] max-sm:w-full"
+          disabled={disabledButtons[project.id]}
+          onClick={() => handleSaveToContract(project.id)}
+        >
+          {disabledButtons[project.id] ? (
+            <Spinner />
+          ) : (
+            <span className="flex items-center justify-center">
+              Publish Changes
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </span>
+          )}
         </Button>
       </CardFooter>
     </Card>

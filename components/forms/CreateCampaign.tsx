@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { campaignValidations } from "@/lib/validations/campaigns";
 import { Textarea } from "../ui/textarea";
-import { ToastFailure, ToastSuccess } from "../Toast";
+import { ToastFailure } from "../Toast";
 import { createProject } from "@/services/blockchain";
 
 function CreateCampaign() {

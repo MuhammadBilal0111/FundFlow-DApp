@@ -75,7 +75,7 @@ export const createProject = async ({
     // await loadProjects();
   } catch (error: any) {
     console.log(error);
-    ToastFailure(error.message);
+    ToastFailure("Error in creating the project!");
   }
 };
 // function to update project in blockchain
@@ -83,16 +83,14 @@ export const updateProject = async ({
   id,
   title,
   description,
-  slug,
   imageURL,
   expiresAt,
 }: {
   id: number;
   title: string;
   description: string;
-  slug: string;
   imageURL: string;
-  expiresAt: string;
+  expiresAt: number;
 }) => {
   try {
     if (!ethereum) {
@@ -100,11 +98,13 @@ export const updateProject = async ({
       return;
     }
     const contract = await getEthereumContract();
+    console.log("contract", await contract?.getAddress());
     if (!contract) {
       ToastFailure("Failed to connect to the contract.");
       return;
     }
-    const tx = await contract?.updateProject(
+    const slug = generateSlug(title);
+    const tx = await contract.updateProject(
       id,
       title,
       description,
@@ -113,13 +113,14 @@ export const updateProject = async ({
       expiresAt
     );
     await tx.wait();
-    await loadProjectById(id);
     ToastSuccess("Project updated successfully!");
+    return true;
   } catch (error: any) {
     console.log(error);
-    ToastFailure(error.message);
+    ToastFailure("Error in updating the project!");
   }
 };
+
 // function to get all projects
 export const loadProjects = async () => {
   try {
@@ -134,11 +135,10 @@ export const loadProjects = async () => {
       return;
     }
     const projects = await contract?.getProjects();
-    const stats = await contract?.stats();
     return structuredProjects(projects);
   } catch (error: any) {
     console.log(error);
-    ToastFailure(error.message);
+    ToastFailure("Error in loading the projects!");
   }
 };
 // get project details
@@ -163,7 +163,7 @@ export const loadProjectById = async (id: number) => {
     // setGlobalState("project", structuredProjects([project])[0]);
   } catch (error: any) {
     console.log(error);
-    ToastFailure(error.message);
+    ToastFailure("Error in loading the project");
   }
 };
 
@@ -188,7 +188,7 @@ export const loadProjectBySlug = async (slug: string) => {
     // setGlobalState("project", structuredProjects([project])[0]);
   } catch (error: any) {
     console.log(error);
-    ToastFailure(error.message);
+    ToastFailure("Error in loading the project");
   }
 };
 // function to get all backers
@@ -208,7 +208,7 @@ export const getBackers = async (id: number) => {
     // setGlobalState("backers", structuredBackers(backers));
   } catch (error: any) {
     console.log(error);
-    ToastFailure(error.message);
+    ToastFailure("Error in Backing the project");
   }
 };
 // function to get payout project
@@ -301,6 +301,6 @@ export const loadProjectsByAddress = async () => {
     return structuredProjects(projects);
   } catch (error: any) {
     console.log(error);
-    throw new Error(error);
+    ToastFailure("Error in loading the project");
   }
 };
