@@ -4,6 +4,8 @@ import Navbar from "@/components/shared/Navbar";
 import { Toaster } from "react-hot-toast";
 import NextTopLoader from "nextjs-toploader";
 import "../globals.css";
+import { dark } from "@clerk/themes";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+      }}
+    >
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} dark`}>
           <div className=" bg-white text-gray-900 dark:bg-[rgb(10,10,10)] dark:text-gray-200 min-h-screen">
@@ -42,5 +49,6 @@ export default function RootLayout({
           </div>
         </body>
       </html>
+    </ClerkProvider>
   );
 }
