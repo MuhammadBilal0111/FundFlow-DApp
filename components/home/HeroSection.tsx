@@ -1,13 +1,12 @@
 "use client";
 import React from "react";
 import { BackgroundBeams } from "@/components/ui/background-beams";
-import {
-  ArrowRight,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-
+import { useRouter } from "nextjs-toploader/app";
 function HeroSection() {
+  const router = useRouter();
   return (
     <div className="h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased">
       <div className="max-w-2xl mx-auto p-4 flex flex-col items-center justify-center">
@@ -23,23 +22,31 @@ function HeroSection() {
             FundFlow
           </h1>
         </div>
-        <p className="text-gray-300 max-w-xl mx-auto my-2 text-md text-center relative z-10">
-          FundFlow is a decentralized crowdfunding platform that leverages
-          blockchain technology and cryptocurrency to enable seamless,
-          transparent, and secure fundraising for projects, startups, and social
-          causes. Built on Ethereum (or other EVM-compatible chains like
-          Polygon), FundFlow allows users to create campaigns, contribute funds,
-          and manage payouts using cryptocurrencies like ETH, USDT, or
-          platform-native tokens.
+        <p className="flex flex-col text-gray-300 max-w-xl mx-auto my-2 text-md text-center relative z-10">
+          <span>
+            FundFlow is a decentralized crowdfunding platform that leverages
+            blockchain technology and cryptocurrency to enable seamless,
+            transparent, and secure fundraising for projects, startups, and
+            social causes. Built on Ethereum (or other EVM-compatible chains
+            like Polygon), FundFlow allows users to create campaigns, contribute
+            funds, and manage payouts using cryptocurrencies like ETH, USDT, or
+            platform-native tokens.
+          </span>
+          <p className="flex flex-row justify-center items-center gap-4 mt-3">
+            <Button
+              className="bg-purple-700 hover:bg-purple-800 text-white cursor-pointer max-sm:w-full duration-75"
+              onClick={() => router.push("/campaigns")}
+            >
+              Get Started <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+            <Button
+              className="border border-purple-700 hover:bg-purple-800 bg-transparent text-white cursor-pointer max-sm:w-full duration-75"
+              onClick={() => router.push("/dashboard?tab=create-campaigns")}
+            >
+              Create Campaign
+            </Button>
+          </p>
         </p>
-        <div className="flex items-center gap-4 mt-6 sm:flex-row flex-col justify-center w-full">
-          <Button className="bg-purple-700 hover:bg-purple-800 text-white cursor-pointer max-sm:w-full">
-            Get Started <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-          <Button className="border border-purple-700 hover:bg-purple-800 bg-transparent text-white cursor-pointer max-sm:w-full">
-            Create Campaign
-          </Button>
-        </div>
       </div>
       <BackgroundBeams />
     </div>
