@@ -1,4 +1,4 @@
-import { House, Pencil, Store } from "lucide-react";
+import { FilePenLine, House, Pencil, Store } from "lucide-react";
 import { ReactNode } from "react";
 
 interface NavItem {
@@ -19,8 +19,13 @@ export const navItems: NavItem[] = [
   },
   {
     name: "Create Campaigns",
-    link: "/campaigns?tab=create-campaign",
+    link: "/dashboard?tab=create-campaign",
     icon: <Pencil size={18} />,
+  },
+  {
+    name: "Edit Campaigns",
+    link: "/dashboard?tab=view-campaign",
+    icon: <FilePenLine size={18} />,
   },
 ];
 export const sidebarLinks = [
@@ -35,4 +40,3 @@ export const sidebarLinks = [
     label: "View Campaigns",
   },
 ];
-

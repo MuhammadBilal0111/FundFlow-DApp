@@ -156,7 +156,7 @@ export default function Page() {
                   cost={projectDetails?.cost || 0}
                   backersLength={backers.length}
                   handleOpenDialog={handleOpenDialog}
-                  expiresAt={projectDetails?.timestamp}
+                  expiresAt={+projectDetails?.timestamp}
                 />
                 <ConfirmBack
                   amount={amount}

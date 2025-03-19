@@ -7,6 +7,7 @@ import {
   structuredBackers,
   structuredProjects,
 } from "@/utils/blockchain.utils";
+import { getWalletAddress } from "@/lib/actions/wallet.action";
 
 let ethereum =
   typeof window !== "undefined" && window.ethereum ? window.ethereum : null;
@@ -14,12 +15,10 @@ let ethereum =
 const contractAddress = address.address;
 const contractAbi = abi.abi;
 
-const tempAddress = "0xC9c4B54f0b812F73b3Fec65A99353445c75e9bbc";
-
 // getting ethereum contract
 const getEthereumContract = async () => {
   try {
-    const connectedAccount = tempAddress;
+    const connectedAccount = await getWalletAddress();
     if (!connectedAccount) {
       console.log("No Account connected");
       ToastFailure("No Metamask Account Connected!");
@@ -98,7 +97,7 @@ export const updateProject = async ({
       return;
     }
     const contract = await getEthereumContract();
-    console.log("contract", await contract?.getAddress());
+
     if (!contract) {
       ToastFailure("Failed to connect to the contract.");
       return;
@@ -185,7 +184,6 @@ export const loadProjectBySlug = async (slug: string) => {
       return;
     }
     return structuredProjects([project]);
-    // setGlobalState("project", structuredProjects([project])[0]);
   } catch (error: any) {
     console.log(error);
     ToastFailure("Error in loading the project");
@@ -205,7 +203,6 @@ export const getBackers = async (id: number) => {
     }
     const backers = await contract?.getBackers(id);
     return structuredBackers(backers);
-    // setGlobalState("backers", structuredBackers(backers));
   } catch (error: any) {
     console.log(error);
     ToastFailure("Error in Backing the project");
@@ -218,14 +215,19 @@ export const payoutProject = async (id: number) => {
       ToastFailure("Please install Metamask");
       return;
     }
-
+    const connectedAccount = await getWalletAddress();
+    if (!connectedAccount) {
+      console.log("No Account connected");
+      ToastFailure("No Metamask Account Connected!");
+      return null;
+    }
     const contract = await getEthereumContract();
     if (!contract) {
       ToastFailure("Failed to connect to the contract.");
       return;
     }
     const tx = await contract?.payOutProject(id, {
-      from: tempAddress, // Ensure tempAddress is defined globally or passed as a parameter
+      from: connectedAccount, // Ensure tempAddress is defined globally or passed as a parameter
     });
 
     await tx.wait(); // Wait for transaction confirmation
@@ -249,8 +251,15 @@ export const backProject = async (id: number, amount: number) => {
     }
     const amountInWei = ethers.parseEther(amount.toString());
     // const connectedAccount = getGlobalState("connectedAccount"); // Get the connected account
+
+    const connectedAccount = await getWalletAddress();
+    if (!connectedAccount) {
+      console.log("No Account connected");
+      ToastFailure("No Metamask Account Connected!");
+      return null;
+    }
     const tx = await contract?.backProject(id, {
-      from: tempAddress,
+      from: connectedAccount,
       value: amountInWei,
     });
 
@@ -295,8 +304,15 @@ export const loadProjectsByAddress = async () => {
       ToastFailure("Failed to connect to the contract.");
       return;
     }
+    const connectedAccount = await getWalletAddress();
+    if (!connectedAccount) {
+      console.log("No Account connected");
+      ToastFailure("No Metamask Account Connected!");
+      return null;
+    }
+
     const projects = await contract.getProjectsByAddress({
-      sender: tempAddress,
+      sender: connectedAccount,
     });
     return structuredProjects(projects);
   } catch (error: any) {
