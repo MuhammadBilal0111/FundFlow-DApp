@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRouter } from "nextjs-toploader/app";
 import AnimatedSection from "./AnimatedSection";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import multiavatar from "@multiavatar/multiavatar/esm";
+import { sampleName } from "@/constant";
 
 export default function SuccessStoriesSection() {
   const router = useRouter();
@@ -57,15 +60,17 @@ export default function SuccessStoriesSection() {
                 idea. Thanks to this platform, we've now provided clean water to
                 over 100,000 people in developing countries."
               </p>
-              <div className="flex items-center mb-6">
-                <img
-                  src="/placeholder.svg?height=100&width=100"
-                  alt="Founder"
-                  className="w-12 h-12 rounded-full mr-4"
-                />
+              <div className="flex items-center mb-6 gap-3">
+                <Avatar className="h-10 w-10 bg-gray-100 text-white font-semibold flex items-center justify-center">
+                  <AvatarImage src="" alt={""} />
+
+                  <AvatarFallback>
+                    {sampleName.name.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
                 <div>
-                  <p className="font-bold">Sarah Johnson</p>
-                  <p className="text-gray-400">Founder, AquaPure</p>
+                  <p className="font-bold">{sampleName.name}</p>
+                  <p className="text-gray-400">Founder, {sampleName.company}</p>
                 </div>
               </div>
               <Button

@@ -6,6 +6,7 @@ import NextTopLoader from "nextjs-toploader";
 import "../globals.css";
 import { dark } from "@clerk/themes";
 import { ClerkProvider } from "@clerk/nextjs";
+import Footer from "@/components/shared/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,7 +38,7 @@ export default function RootLayout({
         <body className={`${geistSans.variable} ${geistMono.variable} dark`}>
           <div className=" bg-white text-gray-900 dark:bg-[rgb(10,10,10)] dark:text-gray-200 min-h-screen">
             <Navbar />
-            <main>
+            <main className="min-h-[800px]">
               <NextTopLoader
                 color="purple"
                 showSpinner={false}
@@ -46,6 +47,7 @@ export default function RootLayout({
               <Toaster position="bottom-left" reverseOrder={false} />
               {children}
             </main>
+            <Footer />
           </div>
         </body>
       </html>

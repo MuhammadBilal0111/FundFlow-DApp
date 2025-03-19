@@ -40,3 +40,8 @@ export const sidebarLinks = [
     label: "View Campaigns",
   },
 ];
+
+export const sampleName = {
+  name: "Hashir Jamal",
+  company: "AquaPure",
+};
