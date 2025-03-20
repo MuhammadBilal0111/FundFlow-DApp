@@ -21,3 +21,15 @@ export const formatTimestampToDate = (timestamp: number) => {
 
   return `${mm}/${dd}/${yyyy}`;
 };
+
+export function getRemainingDays(expireDate: string): number {
+  const currentDate = new Date();
+  const expirationDate = new Date(expireDate); // Convert string to Date object
+
+  if (currentDate >= expirationDate) {
+    return 0; // If the expiration date has passed, return 0
+  }
+
+  const timeDiff = expirationDate.getTime() - currentDate.getTime();
+  return Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+}

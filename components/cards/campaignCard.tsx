@@ -15,6 +15,7 @@ export const CampaignCard = ({
   items?: Project[] | [];
   className?: string;
 }) => {
+  console.log("items", items);
   // Use sample campaigns if no items are provided
   const campaignsToShow = items && items.length > 0 ? items : [];
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);

@@ -4,13 +4,14 @@ import { CardContent } from "@/components/ui/card";
 import { Clock, Users, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { getRemainingDays } from "@/utils/utils";
 
 interface Props {
   cost: number;
   raised: number;
   backersLength: number;
   handleOpenDialog: () => void;
-  expiresAt?: number;
+  expiresAt?: string;
 }
 
 function BackProjectCard({
@@ -20,15 +21,10 @@ function BackProjectCard({
   handleOpenDialog,
   expiresAt,
 }: Props) {
-  // Calculate days left
-  const daysLeft = expiresAt
-    ? Math.max(0, Math.floor((expiresAt - Date.now() / 1000) / 86400))
-    : "N/A";
-
   const progressPercentage = cost
     ? Math.min(((raised ?? 0) / cost) * 100, 100)
     : 0;
-
+  console.log("expiresAt", expiresAt);
   return (
     <div className="sticky top-4">
       <Card className="dark:bg-gray-900 dark:text-gray-300 dark:border-gray-400">
@@ -61,7 +57,9 @@ function BackProjectCard({
                 <Clock size={16} />
                 <span className="text-sm">Days Left</span>
               </div>
-              <span className="font-semibold">{daysLeft}</span>
+              <span className="font-semibold">
+                {getRemainingDays(expiresAt!)} days left
+              </span>
             </div>
           </div>
           <Button

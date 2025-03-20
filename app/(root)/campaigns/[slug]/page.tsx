@@ -32,11 +32,9 @@ export default function Page() {
     const fetchProjectDetails = async () => {
       projectDetailsTransaction(async () => {
         const projectData = (await loadProjectBySlug(slug || "")) as Project[];
-        console.log("Project Details:", projectData);
         setProjectDetails(projectData?.[0] || null);
       });
     };
-
     fetchProjectDetails();
   }, [slug, params.slug]);
 
@@ -62,8 +60,6 @@ export default function Page() {
     if (Number(amount) <= 0) return;
     backStartTransaction(async () => {
       try {
-        // console.log("projectDetils", typeof projectDetails!.id);
-
         await backProject(projectDetails!.id, Number(amount));
         setAmount("");
         setDialogOpen(false);
@@ -156,7 +152,7 @@ export default function Page() {
                   cost={projectDetails?.cost || 0}
                   backersLength={backers.length}
                   handleOpenDialog={handleOpenDialog}
-                  expiresAt={+projectDetails?.timestamp}
+                  expiresAt={projectDetails?.expiresAt}
                 />
                 <ConfirmBack
                   amount={amount}

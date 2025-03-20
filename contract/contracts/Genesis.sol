@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.26;
+pragma solidity ^0.8.28;
 
 contract Genesis {
     address public owner;
@@ -94,7 +94,7 @@ contract Genesis {
 
         projects.push(project);
         projectExist[projectCount] = true;
-        projectsOfByName[slug] = (project);
+        projectsOfByName[slug] = project;
         projectsOf[msg.sender].push(project);
         stats.totalProjects += 1;
 
@@ -115,21 +115,40 @@ contract Genesis {
         string memory imageURL,
         uint expiresAt
     ) public returns (bool) {
+        require(projectExist[id], "Project does not exist");
         require(msg.sender == projects[id].owner, "Unauthorized Entity");
         require(bytes(title).length > 0, "Title cannot be empty");
         require(bytes(slug).length > 0, "Slug cannot be empty");
         require(bytes(description).length > 0, "Description cannot be empty");
         require(bytes(imageURL).length > 0, "ImageURL cannot be empty");
 
+        string memory oldSlug = projects[id].slug;
+
+        // Update project details
         projects[id].title = title;
         projects[id].description = description;
         projects[id].slug = slug;
         projects[id].imageURL = imageURL;
         projects[id].expiresAt = expiresAt;
 
+        address projectOwner = projects[id].owner;
+
+        // Update projectsOf mapping
+        for (uint i = 0; i < projectsOf[projectOwner].length; i++) {
+            if (projectsOf[projectOwner][i].id == id) {
+                projectsOf[projectOwner][i] = projects[id];
+                break;
+            }
+        }
+
+        // Update projectsOfByName mapping
+        delete projectsOfByName[oldSlug]; // Remove old slug mapping
+        projectsOfByName[slug] = projects[id]; // Add new slug mapping
+
         emit Action(id, "PROJECT UPDATED", msg.sender, block.timestamp);
         return true;
     }
+
     // function to delete project
     function deleteProject(uint id) public returns (bool) {
         require(
@@ -171,16 +190,45 @@ contract Genesis {
         backersOf[id].push(
             backerStruct(msg.sender, msg.value, block.timestamp, false)
         );
+        address projectOwner = projects[id].owner;
+        for (uint i = 0; i < projectsOf[projectOwner].length; i++) {
+            if (projectsOf[projectOwner][i].id == id) {
+                projectsOf[projectOwner][i].raised = projects[id].raised;
+                projectsOf[projectOwner][i].backers = projects[id].backers;
+                break;
+            }
+        }
+        // Ensure other mappings are updated properly
+        projectsOfByName[projects[id].slug] = projects[id];
         emit Action(id, "PROJECT BACKED", msg.sender, block.timestamp);
 
         if (projects[id].raised >= projects[id].cost) {
             projects[id].status = statusEnum.APPROVED;
+            for (uint i = 0; i < projectsOf[projects[id].owner].length; i++) {
+                if (projectsOf[projects[id].owner][i].id == id) {
+                    projectsOf[projects[id].owner][i].status = statusEnum
+                        .APPROVED;
+                    break;
+                }
+            }
+
+            // Ensure other mappings are updated properly
+            projectsOfByName[projects[id].slug] = projects[id];
             balance += projects[id].raised;
             performPayout(id);
             return true;
         }
         if (block.timestamp >= projects[id].expiresAt) {
             projects[id].status = statusEnum.REVERTED;
+            for (uint i = 0; i < projectsOf[projects[id].owner].length; i++) {
+                if (projectsOf[projects[id].owner][i].id == id) {
+                    projectsOf[projects[id].owner][i].status = statusEnum
+                        .REVERTED;
+                    break;
+                }
+            }
+            // Ensure other mappings are updated properly
+            projectsOfByName[projects[id].slug] = projects[id];
             performRefund(id);
             return true;
         }
@@ -191,6 +239,15 @@ contract Genesis {
         uint raised = projects[id].raised;
         uint tax = (raised * projectTax) / 100;
         projects[id].status = statusEnum.PAIDOUT;
+        address projectOwner = projects[id].owner;
+        for (uint i = 0; i < projectsOf[projectOwner].length; i++) {
+            if (projectsOf[projectOwner][i].id == id) {
+                projectsOf[projectOwner][i].status = statusEnum.PAIDOUT;
+                break;
+            }
+        }
+        // Ensure other mappings are updated properly
+        projectsOfByName[projects[id].slug] = projects[id];
         payTo(projects[id].owner, (raised - tax));
         payTo(owner, tax);
         balance -= projects[id].raised;
@@ -203,7 +260,15 @@ contract Genesis {
                 projects[id].status != statusEnum.DELETED,
             "Project not marked as revert or delete"
         );
-
+        address projectOwner = projects[id].owner;
+        for (uint i = 0; i < projectsOf[projectOwner].length; i++) {
+            if (projectsOf[projectOwner][i].id == id) {
+                projectsOf[projectOwner][i].status = statusEnum.REVERTED;
+                break;
+            }
+        }
+        // Ensure other mappings are updated properly
+        projectsOfByName[projects[id].slug] = projects[id];
         projects[id].status = statusEnum.REVERTED;
         performRefund(id);
         return true;

@@ -159,7 +159,6 @@ export const loadProjectById = async (id: number) => {
       return;
     }
     return structuredProjects([project]);
-    // setGlobalState("project", structuredProjects([project])[0]);
   } catch (error: any) {
     console.log(error);
     ToastFailure("Error in loading the project");
@@ -183,6 +182,7 @@ export const loadProjectBySlug = async (slug: string) => {
       ToastFailure("Project Not found!");
       return;
     }
+
     return structuredProjects([project]);
   } catch (error: any) {
     console.log(error);
@@ -250,7 +250,6 @@ export const backProject = async (id: number, amount: number) => {
       return;
     }
     const amountInWei = ethers.parseEther(amount.toString());
-    // const connectedAccount = getGlobalState("connectedAccount"); // Get the connected account
 
     const connectedAccount = await getWalletAddress();
     if (!connectedAccount) {
