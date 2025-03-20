@@ -1,21 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import LeftBar from "@/components/dashboard/LeftSideBar";
 import "../globals.css";
 import DashboardTopBar from "@/components/dashboard/TopBar";
 import DashboardBottomBar from "@/components/dashboard/BottomBar";
-import { Toaster } from "react-hot-toast";
-import { ClerkProvider } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,28 +15,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: dark,
-      }}
-    >
-      <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} dark`}>
-          <div className=" bg-white text-gray-900 dark:bg-[rgb(19,18,18)] dark:text-gray-200 min-h-screen">
-            <DashboardTopBar />
-            <main className="flex flex-row">
-              <LeftBar />
-              <section className="flex min-h-screen flex-1 items-center flex-col px-6 pt-28 pb-10 sm:px-10 max-md:mb-20">
-                <div className="w-full max-w-4xl">
-                  <Toaster position="bottom-left" reverseOrder={false} />
-                  {children}
-                </div>
-              </section>
-            </main>
-            <DashboardBottomBar />
-          </div>
-        </body>
-      </html>
-    </ClerkProvider>
+    <div>
+      <DashboardTopBar />
+      <main className="flex flex-row">
+        <LeftBar />
+        <section className="flex min-h-screen flex-1 items-center flex-col px-6 pt-28 pb-10 sm:px-10 max-md:mb-20">
+          <div className="w-full max-w-4xl">{children}</div>
+        </section>
+      </main>
+      <DashboardBottomBar />
+    </div>
   );
 }

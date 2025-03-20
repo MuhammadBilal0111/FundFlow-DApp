@@ -1,22 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/shared/Navbar";
-import { Toaster } from "react-hot-toast";
-import NextTopLoader from "nextjs-toploader";
 import "../globals.css";
-import { dark } from "@clerk/themes";
-import { ClerkProvider } from "@clerk/nextjs";
 import Footer from "@/components/shared/Footer";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "FlowFund",
@@ -29,28 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: dark,
-      }}
-    >
-      <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} dark`}>
-          <div className=" bg-white text-gray-900 dark:bg-[rgb(10,10,10)] dark:text-gray-200 min-h-screen">
-            <Navbar />
-            <main className="min-h-[800px]">
-              <NextTopLoader
-                color="purple"
-                showSpinner={false}
-                easing="ease-in"
-              />
-              <Toaster position="bottom-left" reverseOrder={false} />
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </body>
-      </html>
-    </ClerkProvider>
+    <div>
+      <Navbar />
+      <main className="min-h-[800px]">{children}</main>
+      <Footer />
+    </div>
   );
 }
