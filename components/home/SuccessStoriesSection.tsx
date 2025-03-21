@@ -36,7 +36,7 @@ export default function SuccessStoriesSection() {
               className="rounded-xl overflow-hidden"
             >
               <Image
-                src="/assets/idea.jpg"
+                src="/assets/images/idea.jpg"
                 width={800}
                 height={100}
                 alt="How crowdfunding works"

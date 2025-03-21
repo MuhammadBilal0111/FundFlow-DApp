@@ -1,4 +1,3 @@
-"use client";
 import { Card } from "./CampaignCard";
 import { CardContent } from "@/components/ui/card";
 import { Clock, Users, Wallet } from "lucide-react";

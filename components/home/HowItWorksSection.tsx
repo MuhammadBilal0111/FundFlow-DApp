@@ -23,7 +23,7 @@ export default function HowItWorksSection() {
               className="rounded-xl overflow-hidden order-2 md:order-1"
             >
               <Image
-                src="/assets/bitcoin.jpg"
+                src="/assets/images/bitcoin.jpg"
                 width={800}
                 height={100}
                 alt="How crowdfunding works"

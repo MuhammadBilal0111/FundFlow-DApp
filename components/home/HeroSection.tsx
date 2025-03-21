@@ -13,7 +13,7 @@ function HeroSection() {
       <div className="max-w-2xl mx-auto p-4 flex flex-col items-center justify-center">
         <div className="flex justify-center items-center gap-3">
           <Image
-            src="/assets/logo.png"
+            src="/assets/images/logo.png"
             alt="FlowFund"
             width="40"
             height="40"
@@ -33,7 +33,7 @@ function HeroSection() {
             funds, and manage payouts using cryptocurrencies like ETH, USDT, or
             platform-native tokens.
           </span>
-          <p className="flex flex-row justify-center items-center gap-4 mt-3">
+          <span className="flex flex-row justify-center items-center gap-4 mt-3">
             <Button
               className="bg-purple-700 hover:bg-purple-800 text-white cursor-pointer max-sm:w-full duration-75"
               onClick={() => router.push("/campaigns")}
@@ -46,7 +46,7 @@ function HeroSection() {
             >
               Create Campaign
             </Button>
-          </p>
+          </span>
         </p>
       </div>
       <BackgroundBeams />

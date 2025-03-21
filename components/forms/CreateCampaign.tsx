@@ -46,6 +46,7 @@ function CreateCampaign() {
           expiredAt: Number(new Date(values.deadline)?.getTime() / 1000),
         };
         await createProject(data);
+        
       } catch (error: any) {
         ToastFailure("Failed to submit project");
         console.log(error);

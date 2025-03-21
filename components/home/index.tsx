@@ -1,5 +1,3 @@
-"use client";
-
 import HeroSection from "./HeroSection";
 import HowItWorksSection from "./HowItWorksSection";
 import FeaturedProjectsSection from "./FeaturedProjectSection";

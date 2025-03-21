@@ -29,7 +29,7 @@ export default function FeaturedProjectsSection() {
               className="rounded-xl overflow-hidden"
             >
               <Image
-                src="/assets/home.jpg"
+                src="/assets/images/home.jpg"
                 width={800}
                 height={100}
                 alt="How crowdfunding works"
@@ -68,7 +68,7 @@ export default function FeaturedProjectsSection() {
                 className="bg-purple-700 hover:bg-purple-800 text-white"
                 onClick={() => router.push("/campaigns/ecoSmart-Home-system")}
               >
-                Back This Project <ArrowRight className="ml-2 h-4 w-4" />
+                Create the Campaign <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </motion.div>
           </div>

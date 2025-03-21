@@ -11,10 +11,11 @@ export default function Footer() {
           <div>
             <Link href="/" className="flex justify-start items-center gap-3">
               <Image
-                src="/assets/logo.png"
+                src="/assets/images/logo.png"
                 alt="FlowFund"
                 width="40"
                 height="40"
+                priority
                 className="object-cover mt-2"
               />
               <h1 className="text-2xl font-sans font-bold">FundFlow</h1>
