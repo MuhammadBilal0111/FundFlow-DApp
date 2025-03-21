@@ -9,9 +9,12 @@ import {
 } from "@/utils/blockchain.utils";
 import { getWalletAddress } from "@/lib/actions/wallet.action";
 
-let ethereum =
-  typeof window !== "undefined" && window.ethereum ? window.ethereum : null;
+let ethereum: any = null;
 
+// Ensure `window.ethereum` is accessed on the client side
+if (typeof window !== "undefined" && window.ethereum) {
+  ethereum = window.ethereum;
+}
 const contractAddress = address.address;
 const contractAbi = abi.abi;
 
@@ -34,6 +37,7 @@ const getEthereumContract = async () => {
     return null;
   }
 };
+
 // function to create project in blockchain
 export const createProject = async ({
   title,

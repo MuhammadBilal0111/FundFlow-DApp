@@ -7,7 +7,6 @@ import Image from "next/image";
 import { useRouter } from "nextjs-toploader/app";
 import AnimatedSection from "./AnimatedSection";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import multiavatar from "@multiavatar/multiavatar/esm";
 import { sampleName } from "@/constant";
 
 export default function SuccessStoriesSection() {

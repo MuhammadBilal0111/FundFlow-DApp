@@ -10,7 +10,7 @@ import {
   Users,
   ArrowRight,
   Upload,
-  Wallet
+  Wallet,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -111,7 +111,6 @@ export default function CampaignEditCard({
         | HTMLInputElement
         | HTMLTextAreaElement;
       if (element) {
-        console.log("hello");
         handleUpdateProject(project.id, field, element.value);
         setIsOpen(false);
       }
