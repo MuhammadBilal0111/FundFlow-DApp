@@ -161,10 +161,21 @@ export default function Footer() {
 
         <Separator className="my-8" />
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-          <div className="flex flex-col md:flex-row md:items-center">
+        <div className="w-full">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
             <p className="text-sm text-muted-foreground">
               &copy; {new Date().getFullYear()} FlowFund. All rights reserved.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Developed by:{" "}
+              <Link
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=m.bilal0111@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                Muhammad Bilal
+              </Link>
             </p>
           </div>
         </div>

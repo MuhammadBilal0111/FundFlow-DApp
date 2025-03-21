@@ -10,28 +10,22 @@ function HeroSection() {
   const router = useRouter();
   return (
     <div className="h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased">
-      <div className="max-w-2xl mx-auto p-4 flex flex-col items-center justify-center">
+      <div className="max-w-5xl md:max-w-7xl mx-auto p-4 flex flex-col gap-2 items-center justify-center">
         <div className="flex justify-center items-center gap-3">
           <Image
             src="/assets/images/logo.png"
             alt="FlowFund"
-            width="40"
-            height="40"
+            width="70"
+            height="70"
             className="object-cover mt-2"
           />
-          <h1 className="relative z-10 text-5xl md:text-7xl  bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-600  text-center font-sans font-bold">
+          <h1 className="relative z-10 text-5xl md:text-8xl  bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-gray-600  text-center font-sans font-bold">
             FundFlow
           </h1>
         </div>
-        <p className="flex flex-col text-gray-300 max-w-xl mx-auto my-2 text-md text-center relative z-10">
-          <span>
-            FundFlow is a decentralized crowdfunding platform that leverages
-            blockchain technology and cryptocurrency to enable seamless,
-            transparent, and secure fundraising for projects, startups, and
-            social causes. Built on Ethereum (or other EVM-compatible chains
-            like Polygon), FundFlow allows users to create campaigns, contribute
-            funds, and manage payouts using cryptocurrencies like ETH, USDT, or
-            platform-native tokens.
+        <p className="flex flex-col text-gray-300 max-w-7xl mx-auto my-2 text-center relative z-10">
+          <span className="text-2xl md:text-4xl lg:text-6xl uppercase font-extrabold mb-4 px-4 py-6">
+            PITCH YOUR STARTUP AND CONNECT WITH ENTERPRENEURS
           </span>
           <span className="flex flex-row justify-center items-center gap-4 mt-3">
             <Button

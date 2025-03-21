@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { LogOut } from "lucide-react";
+import { Home, LogOut, Store } from "lucide-react";
 import { SignedIn, SignOutButton } from "@clerk/nextjs";
 
 function TopBar() {
@@ -20,14 +20,30 @@ function TopBar() {
             FlowFund
           </h1>
         </Link>
-        <div className="block md:hidden">
-          <SignedIn>
-            <SignOutButton>
-              <div className="cursor-pointer flex items-center px-2 hover:bg-gray-800 py-2 rounded-lg duration-75">
-                <LogOut />
-              </div>
-            </SignOutButton>
-          </SignedIn>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/"
+            className="hover:text-purple-700 duration-100 hover:underline"
+          >
+            <Home size={20} className="max-sm:block hidden" />
+            <span className="sm:block hidden">Home</span>
+          </Link>
+          <Link
+            href="/campaigns"
+            className="hover:text-purple-700 duration-100 hover:underline"
+          >
+            <Store size={20} className="max-sm:block hidden" />
+            <span className="sm:block hidden">Campaigns</span>
+          </Link>
+          <div className="block md:hidden">
+            <SignedIn>
+              <SignOutButton>
+                <div className="cursor-pointer flex items-center px-2 hover:bg-gray-800 py-2 rounded-lg duration-75">
+                  <LogOut />
+                </div>
+              </SignOutButton>
+            </SignedIn>
+          </div>
         </div>
       </div>
     </section>
