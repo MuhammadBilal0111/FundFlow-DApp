@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "@/components/cards/CampaignCard";
+import { Card } from "@/components/cards/CampaignsCard";
 import { CardContent } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";

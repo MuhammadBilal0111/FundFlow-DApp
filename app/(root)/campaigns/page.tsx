@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { CampaignCard } from "@/components/cards/CampaignCard";
+import { CampaignCard } from "@/components/cards/CampaignsCard";
 import { loadProjects } from "@/services/blockchain";
 import { useTransition } from "react";
 import type { Project } from "@/types/projects";
