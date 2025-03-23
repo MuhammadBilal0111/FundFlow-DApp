@@ -231,14 +231,14 @@ export const payoutProject = async (id: number) => {
       return;
     }
     const tx = await contract?.payOutProject(id, {
-      from: connectedAccount, // Ensure tempAddress is defined globally or passed as a parameter
+      from: connectedAccount,
     });
 
     await tx.wait(); // Wait for transaction confirmation
     ToastSuccess("Project Payout Successfully!");
   } catch (error: any) {
     console.error("Payout Error:", error);
-    ToastFailure(error.message || "Transaction failed.");
+    ToastFailure("Transaction failed.");
   }
 };
 // function to back the project

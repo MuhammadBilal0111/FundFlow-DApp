@@ -159,7 +159,7 @@ export default function CampaignEditCard({
                   <Input
                     id={field}
                     type={
-                      field === "cost"
+                      field === "title"
                         ? "number"
                         : field === "expiresAt"
                         ? "date"
@@ -282,22 +282,12 @@ export default function CampaignEditCard({
                 <Calendar className="mr-1 h-4 w-4" />
                 <span>Deadline: {project?.expiresAt}</span>
               </div>
-              {/* <EditDialog
-                field="expiresAt"
-                title="Deadline"
-                description="Edit your project's expiresAt"
-              /> */}
             </div>
           </div>
           <div className="space-y-4">
             <div className="flex flex-col space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Funding Goal</span>
-                <EditDialog
-                  field="cost"
-                  title="Funding Goal"
-                  description="Edit your project's funding goal"
-                />
               </div>
               <div className="flex items-center text-2xl font-bold">
                 <div className="flex items-center gap-2">
@@ -309,11 +299,15 @@ export default function CampaignEditCard({
                 <motion.div
                   className="h-full bg-purple-600 rounded-full"
                   style={{
-                    width: (project?.raised / project?.cost) * 100,
+                    width:
+                      Math.min((project?.raised / project?.cost) * 100, 100) +
+                      "%",
                   }}
                   initial={{ width: 0 }}
                   animate={{
-                    width: (project?.raised / project?.cost) * 100,
+                    width:
+                      Math.min((project?.raised / project?.cost) * 100, 100) +
+                      "%",
                   }}
                   transition={{ duration: 1, ease: "easeOut" }}
                 />
@@ -358,7 +352,11 @@ export default function CampaignEditCard({
           )}
           <Button
             className="bg-purple-700 hover:bg-purple-800 text-white flex items-center min-w-[180px] max-sm:flex-1"
-            disabled={disabledButtons[project.id] || project?.status === 2}
+            disabled={
+              disabledButtons[project.id] ||
+              project?.status === 2 ||
+              project?.status === 4
+            }
             onClick={() => handleSaveToContract(project.id)}
           >
             {disabledButtons[project.id] ? (
