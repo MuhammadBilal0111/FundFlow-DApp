@@ -79,7 +79,7 @@ export default function Page() {
         </div>
       ) : (
         <>
-          {projectDetails ? (
+          {projectDetails && (
             <div className="flex items-start gap-5 justify-center flex-col lg:flex-row">
               <div className="lg:w-[65%] w-full">
                 <div className="relative aspect-video overflow-hidden rounded-xl mb-6">
@@ -112,7 +112,10 @@ export default function Page() {
                   </Avatar>
                   <span className="text-sm text-muted-foreground">
                     Created by{" "}
-                    <span className="font-semibold text-yellow-600">bilal</span>
+                    <span className="font-semibold text-yellow-600">
+                      {projectDetails?.owner?.slice(0, 6)}...
+                      {projectDetails?.owner?.slice(-6)}
+                    </span>
                   </span>
                 </div>
 
@@ -164,8 +167,6 @@ export default function Page() {
                 />
               </div>
             </div>
-          ) : (
-            <p className="text-gray-300 text-center">No Project Found!</p>
           )}
         </>
       )}

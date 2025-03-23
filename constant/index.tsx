@@ -1,4 +1,4 @@
-import { FilePenLine, House, Pencil, Store } from "lucide-react";
+import { House, LayoutDashboard, Pencil, Store } from "lucide-react";
 import { ReactNode } from "react";
 
 interface NavItem {
@@ -23,9 +23,10 @@ export const navItems: NavItem[] = [
     icon: <Pencil size={18} />,
   },
   {
-    name: "Edit Campaigns",
-    link: "/dashboard?tab=view-campaign",
-    icon: <FilePenLine size={18} />,
+    name: "Dashboard",
+    link: "/dashboard",
+
+    icon: <LayoutDashboard size={18} />,
   },
 ];
 export const sidebarLinks = [

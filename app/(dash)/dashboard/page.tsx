@@ -17,7 +17,6 @@ function page() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [imageFile, setImageFile] = useState<File[]>([]);
 
-  console.log("projects_", projects);
   useEffect(() => {
     const fetchProjects = async () => {
       projectTransaction(async () => {

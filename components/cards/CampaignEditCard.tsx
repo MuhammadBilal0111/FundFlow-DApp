@@ -39,6 +39,7 @@ import Image from "next/image";
 import type { Project } from "@/types/projects";
 import Spinner from "../Spinner";
 import { getRemainingDays } from "@/utils/utils";
+import { payoutProject } from "@/services/blockchain";
 // Inline Spinner component
 
 export default function CampaignEditCard({
@@ -281,11 +282,11 @@ export default function CampaignEditCard({
                 <Calendar className="mr-1 h-4 w-4" />
                 <span>Deadline: {project?.expiresAt}</span>
               </div>
-              <EditDialog
+              {/* <EditDialog
                 field="expiresAt"
                 title="Deadline"
                 description="Edit your project's expiresAt"
-              />
+              /> */}
             </div>
           </div>
           <div className="space-y-4">
@@ -348,7 +349,8 @@ export default function CampaignEditCard({
           {project?.status === 4 && (
             <Button
               variant="outline"
-              className="border-purple-600 text-purple-600 hover:bg-purple-50 bg-transparent flex items-center max-sm:flex-1"
+              onClick={() => payoutProject(project.id)}
+              className="border-purple-600 text-purple-600 hover:bg-purple-600 bg-transparent flex items-center max-sm:flex-1"
             >
               <DollarSign className="mr-2 h-4 w-4" />
               Payout
@@ -356,7 +358,7 @@ export default function CampaignEditCard({
           )}
           <Button
             className="bg-purple-700 hover:bg-purple-800 text-white flex items-center min-w-[180px] max-sm:flex-1"
-            disabled={disabledButtons[project.id]}
+            disabled={disabledButtons[project.id] || project?.status === 2}
             onClick={() => handleSaveToContract(project.id)}
           >
             {disabledButtons[project.id] ? (
