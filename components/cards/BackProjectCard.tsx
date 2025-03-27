@@ -3,7 +3,7 @@ import { CardContent } from "@/components/ui/card";
 import { Clock, Users, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { getRemainingDays } from "@/utils/utils";
+import { getRemainingDays } from "@/utils/blockchain.utils";
 
 interface Props {
   cost: number;
@@ -25,7 +25,7 @@ function BackProjectCard({
     : 0;
   console.log("expiresAt", expiresAt);
   return (
-    <div className="sticky top-4">
+    <article className="sticky top-4">
       <Card className="dark:bg-gray-900 dark:text-gray-300 dark:border-gray-400">
         <CardContent className="p-6">
           <div className="mb-6">
@@ -64,6 +64,7 @@ function BackProjectCard({
           <Button
             className="flex items-center justify-center w-full mb-4 bg-purple-700 hover:bg-purple-800 duration-100 text-gray-300"
             onClick={handleOpenDialog}
+            disabled={raised > cost}
           >
             <Wallet className="mr-2 h-4 w-4" /> Back This Project
           </Button>
@@ -79,7 +80,7 @@ function BackProjectCard({
           </div>
         </CardContent>
       </Card>
-    </div>
+    </article>
   );
 }
 

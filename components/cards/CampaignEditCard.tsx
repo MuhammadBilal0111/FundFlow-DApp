@@ -34,13 +34,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import type { Project } from "@/types/projects";
 import Spinner from "../Spinner";
-import { getRemainingDays } from "@/utils/utils";
+import { getRemainingDays } from "@/utils/blockchain.utils";
 import { payoutProject } from "@/services/blockchain";
-// Inline Spinner component
 
 export default function CampaignEditCard({
   project,
@@ -59,14 +58,14 @@ export default function CampaignEditCard({
   setImageFile: (files: File[]) => void;
   disabledButtons: { [key: number]: boolean };
 }) {
-  console.log("project", project);
+  const router = useRouter();
   const [editField, setEditField] = useState<keyof Project | null>(null);
   const [tempImage, setTempImage] = useState<string | null>(null); // use to store temporary image to show
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // handle page navigation
   const handlePreview = () => {
-    redirect(`/campaigns/${project?.slug}`);
+    router.push(`/campaigns/${project?.slug}`);
   };
 
   // handle file change

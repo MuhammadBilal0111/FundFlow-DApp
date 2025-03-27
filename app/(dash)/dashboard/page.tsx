@@ -7,7 +7,7 @@ import { loadProjectsByAddress, updateProject } from "@/services/blockchain";
 import { Project } from "@/types/projects";
 import { Roller } from "react-spinners-css";
 import { ToastFailure } from "@/components/Toast";
-import { dateToTimeStamp } from "@/utils/utils";
+import { dateToTimeStamp } from "@/utils/blockchain.utils";
 
 function page() {
   const [projectPending, projectTransaction] = useTransition();

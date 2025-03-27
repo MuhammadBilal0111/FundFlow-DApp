@@ -26,14 +26,7 @@ function BackersCard({ owner, timestamp, refunded, contribution }: Backers) {
                 Backer {owner.toString().substring(0, 6)}...
                 {owner.toString().slice(-4)}
               </p>
-              <p className="text-sm text-muted-foreground">
-                {timestamp}
-                {/* {new Date().toLocaleDateString("en-US", {
-                                                year: "numeric",
-                                                month: "short",
-                                                day: "numeric",
-                                              })} */}
-              </p>
+              <p className="text-sm text-muted-foreground">{timestamp}</p>
             </div>
           </div>
           <Badge variant="secondary" className="font-medium">

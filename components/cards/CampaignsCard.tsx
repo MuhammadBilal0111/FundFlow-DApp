@@ -47,7 +47,7 @@ export const CampaignCard = ({
       case 3:
         return "Deleted";
       case 4:
-        return "Paid";
+        return "PaidOut";
       default:
         return "Unknown";
     }

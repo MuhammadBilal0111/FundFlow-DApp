@@ -2,12 +2,12 @@ import { ethers, parseEther } from "ethers";
 import address from "../contract/artifacts/contractAddress.json";
 import abi from "../contract/artifacts/contracts/Genesis.sol/Genesis.json";
 import { ToastSuccess, ToastFailure } from "@/components/Toast";
-import { generateSlug } from "@/utils/utils";
+import { generateSlug } from "@/utils/blockchain.utils";
 import {
   structuredBackers,
   structuredProjects,
 } from "@/utils/blockchain.utils";
-import { getWalletAddress } from "@/lib/actions/wallet.action";
+import { getWalletAddress } from "@/lib/walletConnect";
 
 let ethereum: any = null;
 
@@ -19,7 +19,7 @@ const contractAddress = address.address;
 const contractAbi = abi.abi;
 
 // getting ethereum contract
-const getEthereumContract = async () => {
+export const getEthereumContract = async () => {
   try {
     const connectedAccount = await getWalletAddress();
     if (!connectedAccount) {

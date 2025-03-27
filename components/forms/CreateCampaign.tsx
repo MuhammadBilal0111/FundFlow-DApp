@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,6 +21,7 @@ function CreateCampaign() {
   const [imageFile, setImageFile] = useState<File[]>([]);
   const [isPending, startTransition] = useTransition();
   // 1. Define your form.
+
   const form = useForm({
     resolver: zodResolver(campaignValidations),
     defaultValues: {
@@ -46,7 +48,6 @@ function CreateCampaign() {
           expiredAt: Number(new Date(values.deadline)?.getTime() / 1000),
         };
         await createProject(data);
-        
       } catch (error: any) {
         ToastFailure("Failed to submit project");
         console.log(error);
