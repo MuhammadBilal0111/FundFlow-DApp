@@ -43,7 +43,6 @@ export default function Page() {
 
     const fetchBackers = async () => {
       backerStartTransaction(async () => {
-        console.log("Fetching backers for project ID:", projectDetails!.id);
         const backers = (await getBackers(projectDetails!.id)) as Backers[];
         setBackers(backers);
       });
@@ -64,6 +63,8 @@ export default function Page() {
         setAmount("");
         setDialogOpen(false);
         // Refresh backers list after successful backing
+        const projectData = (await loadProjectBySlug(slug || "")) as Project[];
+        setProjectDetails(projectData?.[0] || null);
         setBackers((await getBackers(projectDetails!.id)) as Backers[]);
       } catch (error: any) {
         console.error("Error backing project:", error);
