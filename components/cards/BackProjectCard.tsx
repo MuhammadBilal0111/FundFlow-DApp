@@ -8,6 +8,7 @@ import { getRemainingDays } from "@/utils/blockchain.utils";
 interface Props {
   cost: number;
   raised: number;
+  status: number;
   backersLength: number;
   handleOpenDialog: () => void;
   expiresAt?: string;
@@ -16,6 +17,7 @@ interface Props {
 function BackProjectCard({
   raised,
   cost,
+  status,
   backersLength,
   handleOpenDialog,
   expiresAt,
@@ -23,7 +25,7 @@ function BackProjectCard({
   const progressPercentage = cost
     ? Math.min(((raised ?? 0) / cost) * 100, 100)
     : 0;
-  console.log("expiresAt", expiresAt);
+
   return (
     <article className="sticky top-4">
       <Card className="dark:bg-gray-900 dark:text-gray-300 dark:border-gray-400">
@@ -64,7 +66,7 @@ function BackProjectCard({
           <Button
             className="flex items-center justify-center w-full mb-4 bg-purple-700 hover:bg-purple-800 duration-100 text-gray-300"
             onClick={handleOpenDialog}
-            disabled={raised > cost}
+            disabled={status !== 0}
           >
             <Wallet className="mr-2 h-4 w-4" /> Back This Project
           </Button>

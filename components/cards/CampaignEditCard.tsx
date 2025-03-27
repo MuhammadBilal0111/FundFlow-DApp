@@ -339,7 +339,7 @@ export default function CampaignEditCard({
           Preview
         </Button>
         <div className="flex gap-2 max-sm:w-full">
-          {project?.status === 4 && (
+          {/* {project?.status === 4 && (
             <Button
               variant="outline"
               onClick={() => payoutProject(project.id)}
@@ -348,7 +348,7 @@ export default function CampaignEditCard({
               <DollarSign className="mr-2 h-4 w-4" />
               Payout
             </Button>
-          )}
+          )} */}
           <Button
             className="bg-purple-700 hover:bg-purple-800 text-white flex items-center min-w-[180px] max-sm:flex-1"
             disabled={

@@ -12,9 +12,9 @@ export default function Footer() {
             <Link href="/" className="flex justify-start items-center gap-3">
               <Image
                 src="/assets/images/logo.png"
-                alt="FlowFund"
-                width="40"
-                height="40"
+                alt="FundFlow"
+                width={40}
+                height={40}
                 priority
                 className="object-cover mt-2"
               />

@@ -154,6 +154,7 @@ export default function Page() {
                 <BackProjectCard
                   raised={projectDetails?.raised || 0}
                   cost={projectDetails?.cost || 0}
+                  status={projectDetails?.status}
                   backersLength={backers.length}
                   handleOpenDialog={handleOpenDialog}
                   expiresAt={projectDetails?.expiresAt}
