@@ -105,7 +105,7 @@ export default function Page() {
                   {projectDetails?.title}
                 </h1>
 
-                <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center gap-3">
                   <Avatar className="h-8 w-8 bg-purple-700">
                     <AvatarFallback>
                       {projectDetails?.title?.charAt(0)}
@@ -131,7 +131,7 @@ export default function Page() {
                     <Roller />
                   </div>
                 ) : backers?.length > 0 ? (
-                  <div className="flex flex-col w-full space-y-4 mb-8 overflow-y-auto max-h-96 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-800 [&::-webkit-scrollbar-thumb]:bg-gray-500 [&::-webkit-scrollbar-thumb]:rounded-full">
+                  <div className="flex flex-col w-full space-y-4 overflow-y-auto max-h-96 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-800 [&::-webkit-scrollbar-thumb]:bg-gray-500 [&::-webkit-scrollbar-thumb]:rounded-full">
                     {backers.map((backer, i) => (
                       <BackersCard
                         key={i}

@@ -28,7 +28,7 @@ function BackProjectCard({
 
   return (
     <article className="sticky top-4">
-      <Card className="dark:bg-gray-900 dark:text-gray-300 dark:border-gray-400">
+      <Card className="bg-slate-950 text-gray-300 dark:border-gray-400">
         <CardContent className="p-6">
           <div className="mb-6">
             <div className="flex justify-between mb-2">
