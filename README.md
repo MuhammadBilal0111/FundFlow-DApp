@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Decentralized FundFlow Platform
 
+FundFlow is a decentralized platform that enables seamless payments through Ethereum. Built with modern web technologies, it ensures secure, transparent, and efficient fund transfers.
+
+## Features
+- **Next.js 15**: The latest version of Next.js for optimized performance.
+- **TypeScript**: Ensures type safety and better development experience.
+- **ShadCN & Aceternity UI**: Provides elegant and customizable UI components.
+- **Sentry**: Error monitoring and tracking for application stability.
+- **Ethers.js**: Facilitates Ethereum-based transactions.
+- **MetaMask Integration**: Enables users to send and receive funds securely.
+- **Hardhat**: Used for deploying smart contracts efficiently.
+- **Cloudinary**: Used for storing the images.
+- 
 ## Getting Started
+Ensure you have the necessary environment variables in place before running the project.
 
-First, run the development server:
+### Prerequisites
+- MetaMask Wallet
+- Ethereum Test Network (e.g., Sepolia)
+
+### Environment Variables
+Create a `.env.local` file and add the following credentials:
+
+```env
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
+```
+Additionally, ensure that the Sentry authentication token is stored in the `.env.sentry-build-plugin` file:
+
+```env
+SENTRY_AUTH_TOKEN=
+```
+
+## Installation
+
+```bash
+git clone https://github.com/MuhammadBilal0111/fundflow.git
+cd fundflow
+npm install
+```
+
+## Running the Project
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Smart Contract Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Deploy contracts using Hardhat:
+```bash
+npx hardhat compile
+npx hardhat run scripts/deploy.js --network sepolia
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Images
+Below are some screenshots of the platform:
 
-## Learn More
+### Home Page
+![Home](public/assets/images/home.jpg)
 
-To learn more about Next.js, take a look at the following resources:
+### Campaigns
+![Campaigns](public/assets/images/campaigns.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Edit Campaigns
+![Edit Campaigns](public/assets/images/edit_campaigns.jpg)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+This project is licensed under the MIT License.
