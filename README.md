@@ -1,8 +1,10 @@
 ### 🚀 Decentralized FundFlow Platform
 
-FundFlow is a production-ready decentralized payment platform built on Ethereum, providing a seamless, secure, and transparent way to handle crypto transactions. By combining the power of Next.js with the security of blockchain technology, FundFlow offers a robust solution for businesses and individuals seeking to adopt cryptocurrency for payments.
+FundFlow – Decentralized Crowdfunding for Startups
 
-This full-stack decentralized application (DApp) integrates Ethereum smart contracts with a user-friendly interface, allowing users to send and receive funds securely using MetaMask and Ethers.js. FundFlow aims to streamline payments across various industries while ensuring compliance and efficiency in a decentralized ecosystem.
+FundFlow is a decentralized funding platform built on Ethereum, enabling startup owners to showcase their projects and receive backing from investors transparently. Entrepreneurs can submit project details, and backers can fund promising ideas using Ethereum (Sepolia testnet for testing purposes).
+
+This full-stack DApp leverages Next.js, Ethers.js, and MetaMask integration for secure and seamless transactions. Backed funds are held until the project is fully funded, after which they are released with a 5% platform fee deducted.
 
 [![FundFlow Banner](public/assets/images/Hero.png)](https://github.com/MuhammadBilal0111/fundflow)  
 
