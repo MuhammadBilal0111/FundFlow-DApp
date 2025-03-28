@@ -4,28 +4,31 @@ import "../globals.css";
 import Footer from "@/components/shared/Footer";
 
 export const metadata: Metadata = {
-  title: "FlowFund - Streamlined Financial Management",
-  description: "FlowFund helps you manage finances efficiently with automated tracking and insightful analytics.",
+  title: "FundFlow - Streamlined Financial Management",
+  description:
+    "FundFlow helps you manage finances efficiently with automated tracking and insightful analytics.",
   openGraph: {
-    title: "FlowFund - Streamlined Financial Management",
-    description: "FlowFund helps you manage finances efficiently with automated tracking and insightful analytics.",
-    url: "https://yourwebsite.com", // Replace with your actual URL
-    siteName: "FlowFund",
+    title: "FundFlow - Streamlined Financial Management",
+    description:
+      "FundFlow helps you manage finances efficiently with automated tracking and insightful analytics.",
+    url: "https://fund-flow-flax.vercel.app", // Replace with your actual URL
+    siteName: "FundFlow",
     images: [
       {
-        url: "https://yourwebsite.com/og-image.jpg", // Replace with your actual image URL
+        url: "https://fund-flow-flax.vercel.app/assets/images/logo.png", // Replace with your actual image URL
         width: 1200,
         height: 630,
-        alt: "FlowFund Dashboard Preview",
+        alt: "FundFlow Dashboard Preview",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "FlowFund - Streamlined Financial Management",
-    description: "Manage finances efficiently with FlowFund's automated tracking and analytics.",
-    images: ["https://yourwebsite.com/og-image.jpg"], // Same as Open Graph image
+    title: "FundFlow - Streamlined Financial Management",
+    description:
+      "Manage finances efficiently with FundFlow's automated tracking and analytics.",
+    images: ["https://fund-flow-flax.vercel.app/assets/images/logo.png"], // Same as Open Graph image
   },
 };
 

@@ -5,31 +5,33 @@ import DashboardTopBar from "@/components/dashboard/TopBar";
 import DashboardBottomBar from "@/components/dashboard/BottomBar";
 
 export const metadata: Metadata = {
-  title: "FlowFund Dashboard - Manage Your Campaigns",
-  description: "Create, track, and manage your campaigns effortlessly with FlowFund's powerful dashboard.",
+  title: "FundFlow Dashboard - Manage Your Campaigns",
+  description:
+    "Create, track, and manage your campaigns effortlessly with FundFlow's powerful dashboard.",
   openGraph: {
-    title: "FlowFund Dashboard - Manage Your Campaigns",
-    description: "Create, track, and manage your campaigns effortlessly with FlowFund's powerful dashboard.",
-    url: "https://yourwebsite.com/dashboard", // Replace with your actual dashboard URL
-    siteName: "FlowFund",
+    title: "FundFlow Dashboard - Manage Your Campaigns",
+    description:
+      "Create, track, and manage your campaigns effortlessly with FundFlow's powerful dashboard.",
+    url: "https://fund-flow-flax.vercel.app/dashboard", // Replace with your actual dashboard URL
+    siteName: "FundFlow",
     images: [
       {
-        url: "https://yourwebsite.com/dashboard-preview.jpg", // Replace with your actual image URL
+        url: "https://fund-flow-flax.vercel.app/assets/images/logo.png", // Replace with your actual image URL
         width: 1200,
         height: 630,
-        alt: "FlowFund Dashboard Preview",
+        alt: "FundFlow Dashboard Preview",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "FlowFund Dashboard - Manage Your Campaigns",
-    description: "Effortlessly create, track, and manage your campaigns in one place.",
-    images: ["https://yourwebsite.com/dashboard-preview.jpg"], // Same as Open Graph image
+    title: "FundFlow Dashboard - Manage Your Campaigns",
+    description:
+      "Effortlessly create, track, and manage your campaigns in one place.",
+    images: ["https://fund-flow-flax.vercel.app/assets/images/logo.png"], // Same as Open Graph image
   },
 };
-
 
 export default function RootLayout({
   children,
