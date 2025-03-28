@@ -4,8 +4,6 @@ FundFlow is a production-ready decentralized payment platform built on Ethereum,
 
 This full-stack decentralized application (DApp) integrates Ethereum smart contracts with a user-friendly interface, allowing users to send and receive funds securely using MetaMask and Ethers.js. FundFlow aims to streamline payments across various industries while ensuring compliance and efficiency in a decentralized ecosystem.
 
-As a scalable platform that leverages cutting-edge technologies, FundFlow presents an excellent opportunity for investors looking to support the next wave of blockchain innovation. With its focus on secure, transparent, and fast transactions, FundFlow is poised to revolutionize the way digital payments are handled.
-
 [![FundFlow Banner](public/assets/images/Hero.png)](https://github.com/MuhammadBilal0111/fundflow)  
 
 <div align="center">
@@ -28,6 +26,7 @@ As a scalable platform that leverages cutting-edge technologies, FundFlow presen
 - **Hardhat**: Used for deploying smart contracts efficiently.
 - **Solidity**: Smart contracts are written in Solidity for Ethereum blockchain integration.
 - **Cloudinary**: Used for storing images.
+- **Clerk**: Authenticating with Metamask.
 
 
 ## Getting Started
