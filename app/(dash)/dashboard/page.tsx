@@ -43,7 +43,6 @@ function page() {
     try {
       setDisabledButtons((prev) => ({ ...prev, [id]: true })); // disabling the button and storing the bool value for button
       const project = projects.find((project) => project.id === id);
-      console.log("project", project);
 
       if (!project) return;
       let imageUrl = { secure_url: project.imageURL }; // imageUrl
@@ -52,7 +51,7 @@ function page() {
         const uploadedImage = (await handleImageUpload(image)) as {
           secure_url: string;
         };
-        console.log("uploaded image", uploadedImage);
+
         if (uploadedImage?.secure_url) {
           imageUrl = uploadedImage; // uploadedImage: { secure_url: "https://example.com/uploaded-image.jpg" }
         }
@@ -65,7 +64,7 @@ function page() {
         imageURL: imageUrl?.secure_url,
         expiresAt: dateToTimeStamp(project.expiresAt),
       };
-      console.log(data);
+
       const isUpdated = await updateProject(data);
       if (isUpdated) setProjects((await loadProjectsByAddress()) as Project[]); // if updation is successfull then show the updated cards
       // as is basically the type assertion

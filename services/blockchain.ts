@@ -64,7 +64,6 @@ export const createProject = async ({
     }
     const slug = generateSlug(title);
     const weicost = parseEther(cost.toString()); // convert in wei
-    console.log("Ethers in wei", cost);
     const tx = await contract?.createProject(
       title,
       description,
@@ -267,9 +266,7 @@ export const backProject = async (id: number, amount: number) => {
     });
 
     await tx.wait(); // Wait for the transaction to be mined
-    ToastSuccess(
-      `${amount} backed successfully!. Your transaction hash is ${tx.hash}`
-    );
+    ToastSuccess(`${amount} backed successfully!.`);
   } catch (error: any) {
     console.error("Error in backing project:", error);
     ToastFailure("An error occurred while backing the project.");
