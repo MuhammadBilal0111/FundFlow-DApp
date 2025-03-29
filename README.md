@@ -124,6 +124,13 @@ Below are some screenshots of the platform:
 ### Edit Campaigns
 ![Edit Campaigns](public/assets/images/Edit.png)
 
+### Demo
+---
+<video width="600" height="340" controls>
+  <source src="https://github.com/user-attachments/assets/919f6a9a-27d2-432f-b99a-3f43dce283d0" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 ## License
 This project is licensed under the MIT License.
 
