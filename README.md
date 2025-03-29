@@ -126,7 +126,7 @@ Below are some screenshots of the platform:
 
 ### Demo
 ---
-[![Watch the video](https://via.placeholder.com/600x340.png?text=Click+to+Play)](https://github.com/user-attachments/assets/27ca449f-b41b-4b1a-84df-c0a0cd63717e)
+[![Watch the video](https://via.placeholder.com/600x340.png?text=Click+to+Play)](https://github.com/user-attachments/assets/919f6a9a-27d2-432f-b99a-3f43dce283d0)
 
 ## License
 This project is licensed under the MIT License.
