@@ -126,10 +126,7 @@ Below are some screenshots of the platform:
 
 ### Demo
 ---
-<video width="600" height="340" controls>
-  <source src="https://github.com/user-attachments/assets/919f6a9a-27d2-432f-b99a-3f43dce283d0" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Watch the video](https://via.placeholder.com/600x340.png?text=Click+to+Play)](https://github.com/user-attachments/assets/27ca449f-b41b-4b1a-84df-c0a0cd63717e)
 
 ## License
 This project is licensed under the MIT License.
