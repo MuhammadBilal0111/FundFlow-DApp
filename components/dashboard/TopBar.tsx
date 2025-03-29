@@ -10,7 +10,7 @@ function TopBar() {
       <div className="mx-5 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
           <Image
-            src={"/assets/logo.png"}
+            src={"/assets/images/logo.png"}
             alt="Logo"
             width={24}
             height={24}

@@ -16,7 +16,7 @@ function LeftSideBar() {
     <section className="sticky z-20 top-0 left-0 h-screen flex pt-28 pb-7 border-r w-fit border-gray-600 max-sm:hidden flex-col justify-between px-4">
       <div className="flex flex-col justify-start gap-3 w-full flex-1">
         {sidebarLinks.map((link) => {
-          const url = new URL(link.route, window.location.origin);
+          const url = new URL(link.route, window?.location?.origin);
           const linkTab = url.searchParams.get("tab");
           const isActive =
             url.pathname === pathname && linkTab === searchParams.get("tab");
@@ -45,7 +45,7 @@ function LeftSideBar() {
       <SignedIn>
         <SignOutButton>
           {/* for customize button use the div inside the SignOutButton */}
-          <div className="cursor-pointer flex items-center gap-4 px-4 hover:bg-gray-800 py-4 rounded-lg duration-75">
+          <div className="cursor-pointer flex items-center gap-4 px-4 hover:bg-gray-900 py-4 rounded-lg duration-75">
             <LogOut className="text-3xl" />
             <p className="max-lg:hidden text-gray-300 font-semibold">Logout</p>
           </div>
