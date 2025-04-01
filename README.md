@@ -29,7 +29,7 @@ This full-stack DApp leverages Next.js, Ethers.js, and MetaMask integration for 
 - **Solidity**: Smart contracts are written in Solidity for Ethereum blockchain integration.
 - **Cloudinary**: Used for storing images.
 - **Clerk**: Authenticating with Metamask.
-
+- **React hook form and zod**: Used for submitting form.
 
 ## Getting Started
 Ensure you have the necessary environment variables in place before running the project.
